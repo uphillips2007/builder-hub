@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import { CalendarDays, FolderKanban, Lightbulb, Sparkles, Settings2, Menu, X } from 'lucide-react'
 import { ThemeProvider, useTheme } from './contexts/ThemeContext'
+import { AuthProvider, useAuth } from './contexts/AuthContext'
+import AuthScreen from './components/auth/AuthScreen'
+import MigrationBanner from './components/MigrationBanner'
 import Today from './components/Today'
 import Projects from './components/Projects'
 import IdeaDump from './components/IdeaDump'
@@ -58,7 +61,6 @@ function Layout() {
   const [drawerOpen, setDrawerOpen] = useState(false)
   const { palette, hubName } = useTheme()
 
-  // Prevent background scroll while drawer is open
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -72,7 +74,7 @@ function Layout() {
   return (
     <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white overflow-x-hidden">
 
-      {/* ── Mobile top bar (hidden on md+) ─────────────────── */}
+      {/* ── Mobile top bar ─────────────────────────────────── */}
       <header className="md:hidden shrink-0 flex items-center justify-between px-4 h-14 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
         <span className="text-sm font-bold tracking-tight">⚡ {hubName}</span>
         <button
@@ -118,7 +120,6 @@ function Layout() {
       {/* ── Desktop + content row ───────────────────────────── */}
       <div className="flex flex-1">
 
-        {/* Desktop sidebar (hidden below md) */}
         <aside className="hidden md:flex md:flex-col md:w-56 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
           <div className="px-5 py-6 border-b border-gray-100 dark:border-gray-800">
             <span className="text-sm font-bold tracking-tight">⚡ {hubName}</span>
@@ -126,7 +127,6 @@ function Layout() {
           <NavItems active={active} onNavigate={navigate} palette={palette} />
         </aside>
 
-        {/* Main content */}
         <main className="flex-1 min-w-0 w-full px-4 py-6 md:px-12 md:py-12 md:max-w-2xl">
           {active === 'today'      && <Today />}
           {active === 'projects'   && <Projects />}
@@ -135,14 +135,34 @@ function Layout() {
           {active === 'settings'   && <Settings />}
         </main>
       </div>
+
+      <MigrationBanner />
     </div>
   )
+}
+
+function AppGate() {
+  const { session } = useAuth()
+
+  if (session === undefined) {
+    return (
+      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+        <p className="text-sm text-gray-400">Loading…</p>
+      </div>
+    )
+  }
+
+  if (!session) return <AuthScreen />
+
+  return <Layout />
 }
 
 export default function App() {
   return (
     <ThemeProvider>
-      <Layout />
+      <AuthProvider>
+        <AppGate />
+      </AuthProvider>
     </ThemeProvider>
   )
 }

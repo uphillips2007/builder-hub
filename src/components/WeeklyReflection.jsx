@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Sparkles } from 'lucide-react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import { formatWeekRange } from '../lib/dates'
-
-const REFLECTIONS_KEY = 'bh-reflections'
 
 function currentISOWeek() {
   const d = new Date()
@@ -16,29 +15,49 @@ function currentISOWeek() {
   return `${utc.getUTCFullYear()}-W${String(week).padStart(2, '0')}`
 }
 
-
 export default function WeeklyReflection() {
   const { palette } = useTheme()
-  const [reflections, setReflections] = useLocalStorage(REFLECTIONS_KEY, [])
+  const { user } = useAuth()
   const week = currentISOWeek()
 
-  const [text, setText] = useState(
-    () => reflections.find((r) => r.week === week)?.text ?? ''
-  )
+  const [reflections, setReflections] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [text, setText] = useState('')
   const [saved, setSaved] = useState(false)
 
-  function handleSave(e) {
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('reflections')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('week', { ascending: false })
+      if (data) {
+        setReflections(data)
+        const current = data.find((r) => r.week === week)
+        if (current) setText(current.text)
+      }
+      setLoading(false)
+    }
+    load()
+  }, [user.id])
+
+  async function handleSave(e) {
     e.preventDefault()
     const trimmed = text.trim()
     if (!trimmed) return
 
     setReflections((prev) => {
       const without = prev.filter((r) => r.week !== week)
-      return [{ week, text: trimmed }, ...without]
+      return [{ week, text: trimmed, user_id: user.id }, ...without]
     })
-
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
+
+    await supabase.from('reflections').upsert(
+      { user_id: user.id, week, text: trimmed, updated_at: new Date().toISOString() },
+      { onConflict: 'user_id,week' }
+    )
   }
 
   const past = [...reflections]
@@ -76,7 +95,9 @@ export default function WeeklyReflection() {
         </div>
       </form>
 
-      {past.length === 0 ? (
+      {loading ? (
+        <div className="py-8 text-center text-sm text-gray-400 dark:text-gray-600">Loading…</div>
+      ) : past.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <Sparkles size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">No past reflections yet</p>

@@ -1,32 +1,49 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Lightbulb, Pencil } from 'lucide-react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import { formatTimestamp } from '../lib/dates'
 
-const IDEAS_KEY = 'bh-ideas'
-
 export default function IdeaDump() {
   const { palette } = useTheme()
-  const [ideas, setIdeas] = useLocalStorage(IDEAS_KEY, [])
-  const [input, setInput] = useState('')
+  const { user } = useAuth()
 
+  const [ideas, setIdeas] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [input, setInput] = useState('')
   const [editingId, setEditingId] = useState(null)
   const [editText, setEditText] = useState('')
 
-  function handleAdd(e) {
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('ideas')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+      if (data) setIdeas(data)
+      setLoading(false)
+    }
+    load()
+  }, [user.id])
+
+  async function handleAdd(e) {
     e.preventDefault()
     const trimmed = input.trim()
     if (!trimmed) return
-    setIdeas((prev) => [
-      { id: crypto.randomUUID(), text: trimmed, createdAt: new Date().toISOString() },
-      ...prev,
-    ])
     setInput('')
+    const { data } = await supabase
+      .from('ideas')
+      .insert({ user_id: user.id, text: trimmed, created_at: new Date().toISOString() })
+      .select()
+      .single()
+    if (data) setIdeas((prev) => [data, ...prev])
   }
 
-  function handleDelete(id) {
+  async function handleDelete(id) {
     setIdeas((prev) => prev.filter((i) => i.id !== id))
+    await supabase.from('ideas').delete().eq('id', id).eq('user_id', user.id)
   }
 
   function startEdit(idea) {
@@ -34,20 +51,19 @@ export default function IdeaDump() {
     setEditText(idea.text)
   }
 
-  function saveEdit() {
+  async function saveEdit() {
     const trimmed = editText.trim()
     if (!trimmed) return
-    setIdeas((prev) =>
-      prev.map((i) => (i.id === editingId ? { ...i, text: trimmed } : i))
-    )
+    const id = editingId
+    setIdeas((prev) => prev.map((i) => (i.id === id ? { ...i, text: trimmed } : i)))
     setEditingId(null)
+    await supabase.from('ideas').update({ text: trimmed }).eq('id', id).eq('user_id', user.id)
   }
 
   function cancelEdit() {
     setEditingId(null)
     setEditText('')
   }
-
 
   const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`
 
@@ -76,7 +92,9 @@ export default function IdeaDump() {
         </button>
       </form>
 
-      {ideas.length === 0 ? (
+      {loading ? (
+        <div className="py-8 text-center text-sm text-gray-400 dark:text-gray-600">Loading…</div>
+      ) : ideas.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <Lightbulb size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">Nothing here yet</p>
@@ -121,7 +139,7 @@ export default function IdeaDump() {
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">{idea.text}</p>
-                    <p className="text-xs text-gray-400 dark:text-gray-600 mt-1.5">{formatTimestamp(idea.createdAt)}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-600 mt-1.5">{formatTimestamp(idea.created_at)}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                     <button

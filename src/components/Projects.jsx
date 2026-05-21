@@ -1,10 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { FolderKanban, ChevronDown, Check, Pencil } from 'lucide-react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import { formatDate } from '../lib/dates'
 
-const PROJECTS_KEY = 'bh-projects'
 const STATUS_OPTIONS = ['active', 'paused', 'shipped']
 
 const STATUS_BADGE = {
@@ -31,7 +31,10 @@ function emptyForm() {
 
 export default function Projects() {
   const { palette } = useTheme()
-  const [projects, setProjects] = useLocalStorage(PROJECTS_KEY, [])
+  const { user } = useAuth()
+
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
   const [form, setForm] = useState(emptyForm())
   const [adding, setAdding] = useState(false)
   const [openDropdown, setOpenDropdown] = useState(null)
@@ -39,7 +42,19 @@ export default function Projects() {
   const [editForm, setEditForm] = useState({ name: '', description: '' })
   const dropdownRefs = useRef({})
 
-  // Close status dropdown on outside click or Escape
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('inserted_at', { ascending: false })
+      if (data) setProjects(data)
+      setLoading(false)
+    }
+    load()
+  }, [user.id])
+
   useEffect(() => {
     if (!openDropdown) return
     function onMouseDown(e) {
@@ -57,30 +72,31 @@ export default function Projects() {
     }
   }, [openDropdown])
 
-  function handleAdd(e) {
+  async function handleAdd(e) {
     e.preventDefault()
     if (!form.name.trim()) return
-    setProjects((prev) => [
-      {
-        id: crypto.randomUUID(),
-        name: form.name.trim(),
-        description: form.description.trim(),
-        status: form.status,
-        createdAt: new Date().toISOString().slice(0, 10),
-      },
-      ...prev,
-    ])
+    const payload = {
+      user_id: user.id,
+      name: form.name.trim(),
+      description: form.description.trim(),
+      status: form.status,
+      created_at: new Date().toISOString().slice(0, 10),
+    }
     setForm(emptyForm())
     setAdding(false)
+    const { data } = await supabase.from('projects').insert(payload).select().single()
+    if (data) setProjects((prev) => [data, ...prev])
   }
 
-  function updateStatus(id, status) {
+  async function updateStatus(id, status) {
     setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, status } : p)))
     setOpenDropdown(null)
+    await supabase.from('projects').update({ status }).eq('id', id).eq('user_id', user.id)
   }
 
-  function deleteProject(id) {
+  async function deleteProject(id) {
     setProjects((prev) => prev.filter((p) => p.id !== id))
+    await supabase.from('projects').delete().eq('id', id).eq('user_id', user.id)
   }
 
   function startEdit(project) {
@@ -89,16 +105,13 @@ export default function Projects() {
     setOpenDropdown(null)
   }
 
-  function saveEdit() {
+  async function saveEdit() {
     if (!editForm.name.trim()) return
-    setProjects((prev) =>
-      prev.map((p) =>
-        p.id === editingId
-          ? { ...p, name: editForm.name.trim(), description: editForm.description.trim() }
-          : p
-      )
-    )
+    const id = editingId
+    const updates = { name: editForm.name.trim(), description: editForm.description.trim() }
+    setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)))
     setEditingId(null)
+    await supabase.from('projects').update(updates).eq('id', id).eq('user_id', user.id)
   }
 
   function cancelEdit() {
@@ -196,7 +209,9 @@ export default function Projects() {
         </form>
       )}
 
-      {projects.length === 0 && !adding ? (
+      {loading ? (
+        <div className="py-8 text-center text-sm text-gray-400 dark:text-gray-600">Loading…</div>
+      ) : projects.length === 0 && !adding ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <FolderKanban size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">No projects yet</p>
@@ -210,7 +225,6 @@ export default function Projects() {
               className="rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-150 group"
             >
               {editingId === project.id ? (
-                /* ── Edit mode ───────────────────────────────── */
                 <div className="space-y-3">
                   <input
                     type="text"
@@ -245,7 +259,6 @@ export default function Projects() {
                   </div>
                 </div>
               ) : (
-                /* ── View mode ───────────────────────────────── */
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate leading-snug">
@@ -257,12 +270,11 @@ export default function Projects() {
                       </p>
                     )}
                     <p className="text-xs text-gray-400 dark:text-gray-600 mt-2.5">
-                      Added {formatDate(project.createdAt)}
+                      Added {formatDate(project.created_at)}
                     </p>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0 pt-0.5">
-                    {/* Status dropdown */}
                     <div
                       className="relative"
                       ref={(el) => { dropdownRefs.current[project.id] = el }}
@@ -301,7 +313,6 @@ export default function Projects() {
                       )}
                     </div>
 
-                    {/* Edit & delete (appear on hover) */}
                     <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                       <button
                         onClick={() => startEdit(project)}

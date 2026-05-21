@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { CalendarDays, Pencil } from 'lucide-react'
-import { useLocalStorage } from '../hooks/useLocalStorage'
+import { supabase } from '../lib/supabase'
+import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import { formatPageDate, formatDate } from '../lib/dates'
-
-const TODAY_KEY = 'bh-today-entries'
 
 function todayDate() {
   return new Date().toISOString().slice(0, 10)
@@ -12,27 +11,49 @@ function todayDate() {
 
 export default function Today() {
   const { palette } = useTheme()
-  const [entries, setEntries] = useLocalStorage(TODAY_KEY, [])
+  const { user } = useAuth()
   const date = todayDate()
 
-  const [text, setText] = useState(
-    () => entries.find((e) => e.date === date)?.text ?? ''
-  )
+  const [entries, setEntries] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [text, setText] = useState('')
   const [saved, setSaved] = useState(false)
-
   const [editingDate, setEditingDate] = useState(null)
   const [editText, setEditText] = useState('')
 
-  function handleSave(e) {
+  useEffect(() => {
+    async function load() {
+      const { data } = await supabase
+        .from('today_entries')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('date', { ascending: false })
+      if (data) {
+        setEntries(data)
+        const todayEntry = data.find((e) => e.date === date)
+        if (todayEntry) setText(todayEntry.text)
+      }
+      setLoading(false)
+    }
+    load()
+  }, [user.id])
+
+  async function handleSave(e) {
     e.preventDefault()
     const trimmed = text.trim()
     if (!trimmed) return
+
     setEntries((prev) => {
       const without = prev.filter((e) => e.date !== date)
-      return [{ date, text: trimmed }, ...without]
+      return [{ date, text: trimmed, user_id: user.id }, ...without]
     })
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
+
+    await supabase.from('today_entries').upsert(
+      { user_id: user.id, date, text: trimmed, updated_at: new Date().toISOString() },
+      { onConflict: 'user_id,date' }
+    )
   }
 
   function startEdit(entry) {
@@ -40,13 +61,17 @@ export default function Today() {
     setEditText(entry.text)
   }
 
-  function saveEdit() {
+  async function saveEdit() {
     const trimmed = editText.trim()
     if (!trimmed) return
-    setEntries((prev) =>
-      prev.map((e) => (e.date === editingDate ? { ...e, text: trimmed } : e))
-    )
+    const d = editingDate
+    setEntries((prev) => prev.map((e) => (e.date === d ? { ...e, text: trimmed } : e)))
     setEditingDate(null)
+    await supabase
+      .from('today_entries')
+      .update({ text: trimmed, updated_at: new Date().toISOString() })
+      .eq('user_id', user.id)
+      .eq('date', d)
   }
 
   function cancelEdit() {
@@ -87,7 +112,9 @@ export default function Today() {
         </div>
       </form>
 
-      {sorted.length === 0 ? (
+      {loading ? (
+        <div className="py-8 text-center text-sm text-gray-400 dark:text-gray-600">Loading…</div>
+      ) : sorted.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <CalendarDays size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
           <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">No entries yet</p>
