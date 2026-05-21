@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { FolderKanban, ChevronDown, Check } from 'lucide-react'
+import { FolderKanban, ChevronDown, Check, Pencil } from 'lucide-react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useTheme } from '../contexts/ThemeContext'
 
@@ -34,9 +34,11 @@ export default function Projects() {
   const [form, setForm] = useState(emptyForm())
   const [adding, setAdding] = useState(false)
   const [openDropdown, setOpenDropdown] = useState(null)
+  const [editingId, setEditingId] = useState(null)
+  const [editForm, setEditForm] = useState({ name: '', description: '' })
   const dropdownRefs = useRef({})
 
-  // Close on outside click or Escape
+  // Close status dropdown on outside click or Escape
   useEffect(() => {
     if (!openDropdown) return
     function onMouseDown(e) {
@@ -78,6 +80,28 @@ export default function Projects() {
 
   function deleteProject(id) {
     setProjects((prev) => prev.filter((p) => p.id !== id))
+  }
+
+  function startEdit(project) {
+    setEditingId(project.id)
+    setEditForm({ name: project.name, description: project.description })
+    setOpenDropdown(null)
+  }
+
+  function saveEdit() {
+    if (!editForm.name.trim()) return
+    setProjects((prev) =>
+      prev.map((p) =>
+        p.id === editingId
+          ? { ...p, name: editForm.name.trim(), description: editForm.description.trim() }
+          : p
+      )
+    )
+    setEditingId(null)
+  }
+
+  function cancelEdit() {
+    setEditingId(null)
   }
 
   const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`
@@ -184,72 +208,118 @@ export default function Projects() {
               key={project.id}
               className="rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-150 group"
             >
-              <div className="flex items-start justify-between gap-4">
-                <div className="min-w-0">
-                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate leading-snug">
-                    {project.name}
-                  </h3>
-                  {project.description && (
-                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
-                      {project.description}
-                    </p>
-                  )}
-                  <p className="text-[11px] text-gray-400 dark:text-gray-600 mt-2.5 font-medium tracking-wide uppercase">
-                    {project.createdAt}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2.5 shrink-0 pt-0.5">
-                  {/* Custom status dropdown */}
-                  <div
-                    className="relative"
-                    ref={(el) => { dropdownRefs.current[project.id] = el }}
-                  >
+              {editingId === project.id ? (
+                /* ── Edit mode ───────────────────────────────── */
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    value={editForm.name}
+                    onChange={(e) => setEditForm((f) => ({ ...f, name: e.target.value }))}
+                    onKeyDown={(e) => e.key === 'Escape' && cancelEdit()}
+                    placeholder="Project name"
+                    autoFocus
+                    className={inputClass}
+                  />
+                  <input
+                    type="text"
+                    value={editForm.description}
+                    onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))}
+                    onKeyDown={(e) => e.key === 'Escape' && cancelEdit()}
+                    placeholder="Description (optional)"
+                    className={inputClass}
+                  />
+                  <div className="flex gap-2 pt-1">
                     <button
-                      onClick={() => setOpenDropdown(openDropdown === project.id ? null : project.id)}
-                      className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-all duration-150 ${STATUS_BADGE[project.status]}`}
+                      onClick={saveEdit}
+                      className={`px-4 py-1.5 ${palette.button} text-white text-xs font-semibold rounded-lg transition-all duration-150 active:scale-95`}
                     >
-                      <span className={`w-1.5 h-1.5 rounded-full ${STATUS_DOT[project.status]}`} />
-                      {project.status}
-                      <ChevronDown
-                        size={10}
-                        strokeWidth={2.5}
-                        className={`transition-transform duration-150 ${openDropdown === project.id ? 'rotate-180' : ''}`}
-                      />
+                      Save
                     </button>
-
-                    {openDropdown === project.id && (
-                      <div className="absolute right-0 top-full mt-1.5 z-20 min-w-[130px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl py-1.5 overflow-hidden">
-                        {STATUS_OPTIONS.map((s) => (
-                          <button
-                            key={s}
-                            onClick={() => updateStatus(project.id, s)}
-                            className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold transition-colors duration-100 ${
-                              s === project.status
-                                ? `${STATUS_BADGE[s]}`
-                                : `text-gray-600 dark:text-gray-400 ${STATUS_OPTION_HOVER[s]}`
-                            }`}
-                          >
-                            <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${STATUS_DOT[s]}`} />
-                            {s}
-                            {s === project.status && (
-                              <Check size={11} strokeWidth={2.5} className="ml-auto" />
-                            )}
-                          </button>
-                        ))}
-                      </div>
+                    <button
+                      onClick={cancelEdit}
+                      className="px-4 py-1.5 text-gray-500 dark:text-gray-400 text-xs font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                /* ── View mode ───────────────────────────────── */
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate leading-snug">
+                      {project.name}
+                    </h3>
+                    {project.description && (
+                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 leading-relaxed">
+                        {project.description}
+                      </p>
                     )}
+                    <p className="text-[11px] text-gray-400 dark:text-gray-600 mt-2.5 font-medium tracking-wide uppercase">
+                      {project.createdAt}
+                    </p>
                   </div>
 
-                  <button
-                    onClick={() => deleteProject(project.id)}
-                    className="text-gray-300 dark:text-gray-700 hover:text-red-400 dark:hover:text-red-500 transition-colors duration-150 text-xl leading-none opacity-0 group-hover:opacity-100"
-                    title="Delete"
-                  >
-                    ×
-                  </button>
+                  <div className="flex items-center gap-2 shrink-0 pt-0.5">
+                    {/* Status dropdown */}
+                    <div
+                      className="relative"
+                      ref={(el) => { dropdownRefs.current[project.id] = el }}
+                    >
+                      <button
+                        onClick={() => setOpenDropdown(openDropdown === project.id ? null : project.id)}
+                        className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition-all duration-150 ${STATUS_BADGE[project.status]}`}
+                      >
+                        <span className={`w-1.5 h-1.5 rounded-full ${STATUS_DOT[project.status]}`} />
+                        {project.status}
+                        <ChevronDown
+                          size={10}
+                          strokeWidth={2.5}
+                          className={`transition-transform duration-150 ${openDropdown === project.id ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+
+                      {openDropdown === project.id && (
+                        <div className="absolute right-0 top-full mt-1.5 z-20 min-w-[130px] rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 shadow-xl py-1.5 overflow-hidden">
+                          {STATUS_OPTIONS.map((s) => (
+                            <button
+                              key={s}
+                              onClick={() => updateStatus(project.id, s)}
+                              className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs font-semibold transition-colors duration-100 ${
+                                s === project.status
+                                  ? STATUS_BADGE[s]
+                                  : `text-gray-600 dark:text-gray-400 ${STATUS_OPTION_HOVER[s]}`
+                              }`}
+                            >
+                              <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${STATUS_DOT[s]}`} />
+                              {s}
+                              {s === project.status && <Check size={11} strokeWidth={2.5} className="ml-auto" />}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Edit & delete (appear on hover) */}
+                    <div className="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
+                      <button
+                        onClick={() => startEdit(project)}
+                        className="text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-400 transition-colors duration-150"
+                        title="Edit"
+                      >
+                        <Pencil size={13} />
+                      </button>
+                      <button
+                        onClick={() => deleteProject(project.id)}
+                        className="text-gray-400 dark:text-gray-600 hover:text-red-400 dark:hover:text-red-500 transition-colors duration-150 text-xl leading-none"
+                        title="Delete"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </li>
           ))}
         </ul>
