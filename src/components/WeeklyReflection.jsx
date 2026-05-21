@@ -112,7 +112,7 @@ export default function WeeklyReflection() {
             {past.map((r) => (
               <li
                 key={r.week}
-                className="rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-150"
+                className="rounded-xl border border-gray-200 dark:border-gray-800/60 bg-white dark:bg-[#161616] px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150"
               >
                 <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">
                   {formatWeekRange(r.week)}

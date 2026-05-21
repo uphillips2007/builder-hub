@@ -1,5 +1,14 @@
 // All class strings are complete literals so Tailwind v4 includes them in the build.
 export const ACCENTS = {
+  charcoal: {
+    name: 'Charcoal',
+    swatch: '#374151',
+    button: 'bg-gray-900 hover:bg-black dark:bg-gray-600 dark:hover:bg-gray-500',
+    navActive: 'bg-gray-200 text-gray-900 dark:bg-gray-700 dark:text-white',
+    ring: 'focus:ring-gray-500 dark:focus:ring-gray-400',
+    text: 'text-gray-800 dark:text-gray-200',
+    formBorder: 'border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800/40',
+  },
   indigo: {
     name: 'Indigo',
     swatch: '#6366f1',
@@ -36,15 +45,6 @@ export const ACCENTS = {
     text: 'text-rose-600 dark:text-rose-400',
     formBorder: 'border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30',
   },
-  amber: {
-    name: 'Amber',
-    swatch: '#d97706',
-    button: 'bg-amber-500 hover:bg-amber-600',
-    navActive: 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400',
-    ring: 'focus:ring-amber-500',
-    text: 'text-amber-600 dark:text-amber-400',
-    formBorder: 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30',
-  },
 }
 
-export const DEFAULT_ACCENT = 'indigo'
+export const DEFAULT_ACCENT = 'charcoal'

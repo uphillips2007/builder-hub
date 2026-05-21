@@ -4,9 +4,12 @@ import { ACCENTS, DEFAULT_ACCENT } from '../lib/themes'
 const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
-  const [accent, setAccentName] = useState(
-    () => localStorage.getItem('bh-accent') || DEFAULT_ACCENT
-  )
+  const [accent, setAccentName] = useState(() => {
+    const stored = localStorage.getItem('bh-accent')
+    // Migrate users who had the old indigo default
+    if (!stored || stored === 'indigo') return DEFAULT_ACCENT
+    return stored
+  })
   const [darkMode, setDarkModeState] = useState(
     () => localStorage.getItem('bh-dark') === 'true'
   )

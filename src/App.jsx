@@ -88,10 +88,10 @@ function Layout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-white overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-[#0a0a0a] text-gray-900 dark:text-white overflow-x-hidden">
 
       {/* ── Mobile top bar ─────────────────────────────────── */}
-      <header className="md:hidden shrink-0 flex items-center justify-between px-4 h-14 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+      <header className="md:hidden shrink-0 flex items-center justify-between px-4 h-14 bg-gray-50 dark:bg-[#111111] border-b border-gray-200 dark:border-gray-800/60">
         <div className="flex items-center gap-2.5">
             <LogoMark />
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
@@ -118,7 +118,7 @@ function Layout() {
       <div
         className={[
           'md:hidden fixed inset-y-0 left-0 z-40 w-72 flex flex-col',
-          'bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800',
+          'bg-gray-50 dark:bg-[#111111] border-r border-gray-200 dark:border-gray-800/60',
           'transition-transform duration-200 ease-in-out',
           drawerOpen ? 'translate-x-0' : '-translate-x-full',
         ].join(' ')}
@@ -142,7 +142,7 @@ function Layout() {
       {/* ── Desktop + content row ───────────────────────────── */}
       <div className="flex flex-1">
 
-        <aside className="hidden md:flex md:flex-col md:w-56 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
+        <aside className="hidden md:flex md:flex-col md:w-56 shrink-0 border-r border-gray-200 dark:border-gray-800/60 bg-gray-50 dark:bg-[#111111]">
           <div className="px-5 py-6 border-b border-gray-100 dark:border-gray-800">
             <div className="flex items-center gap-2.5">
             <LogoMark />

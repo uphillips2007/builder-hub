@@ -105,7 +105,7 @@ export default function IdeaDump() {
           {ideas.map((idea) => (
             <li
               key={idea.id}
-              className="rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-150 group"
+              className="rounded-xl border border-gray-200 dark:border-gray-800/60 bg-white dark:bg-[#161616] px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150 group"
             >
               {editingId === idea.id ? (
                 <div>
