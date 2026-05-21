@@ -140,16 +140,13 @@ export default function Today() {
                     <p className="flex-1 text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed min-w-0">
                       {entry.text}
                     </p>
-                    {/* Today's entry is edited via the form above */}
-                    {entry.date !== date && (
-                      <button
-                        onClick={() => startEdit(entry)}
-                        className="shrink-0 text-gray-300 dark:text-gray-700 hover:text-gray-500 dark:hover:text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-150 mt-0.5"
-                        title="Edit"
-                      >
-                        <Pencil size={13} />
-                      </button>
-                    )}
+                    <button
+                      onClick={() => startEdit(entry)}
+                      className="shrink-0 text-gray-300 dark:text-gray-700 hover:text-gray-500 dark:hover:text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-150 mt-0.5"
+                      title="Edit"
+                    >
+                      <Pencil size={13} />
+                    </button>
                   </div>
                 )}
               </li>
