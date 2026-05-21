@@ -135,7 +135,7 @@ export default function Projects() {
             <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">
               Status
             </label>
-            <div className="flex gap-2">
+            <div className="flex flex-wrap gap-2">
               {STATUS_OPTIONS.map((s) => (
                 <button
                   key={s}
