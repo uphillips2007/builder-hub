@@ -5,10 +5,14 @@ const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
   const [accent, setAccentName] = useState(() => {
-    const stored = localStorage.getItem('bh-accent')
-    // Migrate users who had the old indigo default
-    if (!stored || stored === 'indigo') return DEFAULT_ACCENT
-    return stored
+    // v2: force charcoal for everyone on this theme version
+    const themeVer = localStorage.getItem('bh-theme-ver')
+    if (themeVer !== '2') {
+      localStorage.setItem('bh-theme-ver', '2')
+      localStorage.removeItem('bh-accent')
+      return DEFAULT_ACCENT
+    }
+    return localStorage.getItem('bh-accent') || DEFAULT_ACCENT
   })
   const [darkMode, setDarkModeState] = useState(
     () => localStorage.getItem('bh-dark') === 'true'

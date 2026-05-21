@@ -78,7 +78,7 @@ export default function WeeklyReflection() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="People, problems, moments, work — anything that made you feel alive..."
-          className={`w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`}
+          className={`w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`}
         />
         <div className="mt-3 flex items-center gap-3">
           <button

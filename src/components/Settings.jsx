@@ -33,7 +33,7 @@ export default function Settings() {
             type="text"
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
-            className={`flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 ${palette.ring}`}
+            className={`flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 ${palette.ring}`}
           />
           <button
             type="submit"
