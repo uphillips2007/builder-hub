@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { CalendarDays, Pencil } from 'lucide-react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useTheme } from '../contexts/ThemeContext'
+import { formatPageDate, formatDate } from '../lib/dates'
 
 const TODAY_KEY = 'bh-today-entries'
 
@@ -60,7 +61,7 @@ export default function Today() {
   return (
     <div>
       <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">Today</h2>
-      <p className="text-sm text-gray-400 dark:text-gray-500 mb-8">{date}</p>
+      <p className="text-sm text-gray-400 dark:text-gray-500 mb-8">{formatPageDate(date)}</p>
 
       <form onSubmit={handleSave} className="mb-10">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2.5">
@@ -103,11 +104,11 @@ export default function Today() {
                 key={entry.date}
                 className="rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-150 group"
               >
-                <p className="text-[11px] font-medium text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">
-                  {entry.date}
+                <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">
                   {entry.date === date && (
-                    <span className={`ml-2 normal-case tracking-normal ${palette.text}`}>today</span>
+                    <span className={`font-semibold ${palette.text} mr-1.5`}>Today · </span>
                   )}
+                  {formatDate(entry.date)}
                 </p>
 
                 {editingDate === entry.date ? (

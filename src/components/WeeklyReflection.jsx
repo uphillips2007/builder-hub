@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Sparkles } from 'lucide-react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useTheme } from '../contexts/ThemeContext'
+import { formatWeekRange } from '../lib/dates'
 
 const REFLECTIONS_KEY = 'bh-reflections'
 
@@ -15,10 +16,6 @@ function currentISOWeek() {
   return `${utc.getUTCFullYear()}-W${String(week).padStart(2, '0')}`
 }
 
-function weekLabel(isoWeek) {
-  const [year, w] = isoWeek.split('-W')
-  return `Week ${parseInt(w, 10)}, ${year}`
-}
 
 export default function WeeklyReflection() {
   const { palette } = useTheme()
@@ -51,7 +48,7 @@ export default function WeeklyReflection() {
   return (
     <div>
       <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">Weekly Reflection</h2>
-      <p className="text-sm text-gray-400 dark:text-gray-500 mb-8">{weekLabel(week)}</p>
+      <p className="text-sm text-gray-400 dark:text-gray-500 mb-8">{formatWeekRange(week)}</p>
 
       <form onSubmit={handleSave} className="mb-10">
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2.5">
@@ -97,7 +94,7 @@ export default function WeeklyReflection() {
                 className="rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-150"
               >
                 <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">
-                  {weekLabel(r.week)}
+                  {formatWeekRange(r.week)}
                 </p>
                 <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{r.text}</p>
               </li>

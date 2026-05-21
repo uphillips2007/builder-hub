@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Lightbulb, Pencil } from 'lucide-react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useTheme } from '../contexts/ThemeContext'
+import { formatTimestamp } from '../lib/dates'
 
 const IDEAS_KEY = 'bh-ideas'
 
@@ -47,11 +48,6 @@ export default function IdeaDump() {
     setEditText('')
   }
 
-  function formatDate(iso) {
-    return new Date(iso).toLocaleDateString(undefined, {
-      month: 'short', day: 'numeric', year: 'numeric',
-    })
-  }
 
   const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`
 
@@ -125,7 +121,7 @@ export default function IdeaDump() {
                 <div className="flex items-start gap-3">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-800 dark:text-gray-200 leading-relaxed">{idea.text}</p>
-                    <p className="text-[11px] text-gray-400 dark:text-gray-600 mt-1.5 font-medium">{formatDate(idea.createdAt)}</p>
+                    <p className="text-xs text-gray-400 dark:text-gray-600 mt-1.5">{formatTimestamp(idea.createdAt)}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-150">
                     <button

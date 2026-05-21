@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react'
 import { FolderKanban, ChevronDown, Check, Pencil } from 'lucide-react'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import { useTheme } from '../contexts/ThemeContext'
+import { formatDate } from '../lib/dates'
 
 const PROJECTS_KEY = 'bh-projects'
 const STATUS_OPTIONS = ['active', 'paused', 'shipped']
@@ -255,8 +256,8 @@ export default function Projects() {
                         {project.description}
                       </p>
                     )}
-                    <p className="text-[11px] text-gray-400 dark:text-gray-600 mt-2.5 font-medium tracking-wide uppercase">
-                      {project.createdAt}
+                    <p className="text-xs text-gray-400 dark:text-gray-600 mt-2.5">
+                      Added {formatDate(project.createdAt)}
                     </p>
                   </div>
 
