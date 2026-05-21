@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { useTheme } from '../../contexts/ThemeContext'
+import { supabase } from '../../lib/supabase'
 
 export default function AuthScreen() {
   const { signIn, signUp } = useAuth()
@@ -11,6 +12,17 @@ export default function AuthScreen() {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
+  const [googleLoading, setGoogleLoading] = useState(false)
+
+  async function handleGoogleSignIn() {
+    setGoogleLoading(true)
+    setError('')
+    await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin },
+    })
+    // Page will redirect — no need to setGoogleLoading(false)
+  }
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -46,62 +58,90 @@ export default function AuthScreen() {
           </p>
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm space-y-4"
-        >
-          {message && (
-            <p className="text-sm text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg px-3 py-2.5">
-              {message}
-            </p>
-          )}
-          {error && (
-            <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg px-3 py-2.5">
-              {error}
-            </p>
-          )}
+        <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 shadow-sm">
 
-          <div>
-            <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">
-              Email
-            </label>
-            <input
-              type="email"
-              required
-              autoFocus
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@example.com"
-              className={inputClass}
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">
-              Password
-            </label>
-            <input
-              type="password"
-              required
-              minLength={6}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className={inputClass}
-            />
-            {mode === 'signup' && (
-              <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">Minimum 6 characters</p>
-            )}
-          </div>
-
+          {/* Google button */}
           <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-2.5 ${palette.button} text-white text-sm font-semibold rounded-lg transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100`}
+            onClick={handleGoogleSignIn}
+            disabled={googleLoading || loading}
+            className="w-full flex items-center justify-center gap-3 py-2.5 px-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
           >
-            {loading ? 'Please wait…' : mode === 'signin' ? 'Sign In' : 'Create Account'}
+            {googleLoading ? (
+              <span className="text-gray-400">Redirecting…</span>
+            ) : (
+              <>
+                <svg width="18" height="18" viewBox="0 0 48 48" fill="none">
+                  <path d="M47.5 24.5c0-1.6-.1-3.2-.4-4.7H24v8.9h13.2c-.6 3-2.3 5.6-4.9 7.3v6h7.9c4.6-4.3 7.3-10.6 7.3-17.5z" fill="#4285F4"/>
+                  <path d="M24 48c6.5 0 12-2.1 16-5.8l-7.9-6c-2.2 1.5-5 2.3-8.1 2.3-6.2 0-11.5-4.2-13.4-9.9H2.5v6.2C6.5 42.6 14.7 48 24 48z" fill="#34A853"/>
+                  <path d="M10.6 28.6c-.5-1.5-.8-3-.8-4.6s.3-3.1.8-4.6V13.2H2.5A23.9 23.9 0 0 0 0 24c0 3.9.9 7.5 2.5 10.8l8.1-6.2z" fill="#FBBC04"/>
+                  <path d="M24 9.5c3.5 0 6.6 1.2 9.1 3.5l6.8-6.8C35.9 2.4 30.4 0 24 0 14.7 0 6.5 5.4 2.5 13.2l8.1 6.2c1.9-5.7 7.2-9.9 13.4-9.9z" fill="#EA4335"/>
+                </svg>
+                Continue with Google
+              </>
+            )}
           </button>
-        </form>
+
+          {/* Divider */}
+          <div className="flex items-center gap-3 my-4">
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+            <span className="text-xs text-gray-400 dark:text-gray-600 font-medium">or</span>
+            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+          </div>
+
+          {/* Email / password form */}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {message && (
+              <p className="text-sm text-green-700 dark:text-green-400 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg px-3 py-2.5">
+                {message}
+              </p>
+            )}
+            {error && (
+              <p className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg px-3 py-2.5">
+                {error}
+              </p>
+            )}
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">
+                Email
+              </label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className={inputClass}
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">
+                Password
+              </label>
+              <input
+                type="password"
+                required
+                minLength={6}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className={inputClass}
+              />
+              {mode === 'signup' && (
+                <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">Minimum 6 characters</p>
+              )}
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading || googleLoading}
+              className={`w-full py-2.5 ${palette.button} text-white text-sm font-semibold rounded-lg transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100`}
+            >
+              {loading ? 'Please wait…' : mode === 'signin' ? 'Sign In' : 'Create Account'}
+            </button>
+          </form>
+        </div>
 
         <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
           {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
