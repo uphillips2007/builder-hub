@@ -17,6 +17,22 @@ const NAV = [
   { id: 'reflection', label: 'Weekly Reflection', icon: Sparkles },
 ]
 
+function LogoMark() {
+  return (
+    <svg width="22" height="22" viewBox="0 0 32 32" className="shrink-0">
+      {[0, 60, 120, 180, 240, 300].map((deg) => (
+        <ellipse
+          key={deg}
+          cx="16" cy="10.5" rx="3" ry="5.5"
+          fill="currentColor"
+          opacity="0.85"
+          transform={`rotate(${deg} 16 16)`}
+        />
+      ))}
+    </svg>
+  )
+}
+
 function NavItems({ active, onNavigate, palette }) {
   return (
     <>
@@ -76,7 +92,10 @@ function Layout() {
 
       {/* ── Mobile top bar ─────────────────────────────────── */}
       <header className="md:hidden shrink-0 flex items-center justify-between px-4 h-14 bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <span className="text-sm font-bold tracking-tight">⚡ {hubName}</span>
+        <div className="flex items-center gap-2.5">
+            <LogoMark />
+            <span className="text-sm font-semibold tracking-tight">{hubName}</span>
+          </div>
         <button
           onClick={() => setDrawerOpen(true)}
           className="flex items-center justify-center w-10 h-10 -mr-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
@@ -105,7 +124,10 @@ function Layout() {
         ].join(' ')}
       >
         <div className="flex items-center justify-between px-5 h-14 border-b border-gray-100 dark:border-gray-800 shrink-0">
-          <span className="text-sm font-bold tracking-tight">⚡ {hubName}</span>
+          <div className="flex items-center gap-2.5">
+            <LogoMark />
+            <span className="text-sm font-semibold tracking-tight">{hubName}</span>
+          </div>
           <button
             onClick={() => setDrawerOpen(false)}
             className="flex items-center justify-center w-8 h-8 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
@@ -122,7 +144,10 @@ function Layout() {
 
         <aside className="hidden md:flex md:flex-col md:w-56 shrink-0 border-r border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
           <div className="px-5 py-6 border-b border-gray-100 dark:border-gray-800">
-            <span className="text-sm font-bold tracking-tight">⚡ {hubName}</span>
+            <div className="flex items-center gap-2.5">
+            <LogoMark />
+            <span className="text-sm font-semibold tracking-tight">{hubName}</span>
+          </div>
           </div>
           <NavItems active={active} onNavigate={navigate} palette={palette} />
         </aside>
