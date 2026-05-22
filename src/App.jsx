@@ -159,8 +159,8 @@ function Layout() {
           <NavItems active={activeNav} onNavigate={navigate} palette={palette} />
         </aside>
 
-        <main className="flex-1 min-w-0 w-full px-4 py-6 md:px-12 md:py-12">
-          <div key={active === 'project' ? `project-${projectId}` : active} className="page-enter">
+        <main className="flex-1 min-w-0 w-full px-4 py-6 md:px-8 md:py-12">
+          <div key={active === 'project' ? `project-${projectId}` : active} className="page-enter max-w-2xl mx-auto">
             {active === 'dashboard'  && <Dashboard onNavigate={navigate} />}
             {active === 'today'      && <Today />}
             {active === 'projects'   && <Projects onNavigate={navigate} />}

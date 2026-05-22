@@ -113,7 +113,7 @@ export default function Today() {
   const streak = calcStreak(entries)
 
   return (
-    <div className="max-w-2xl">
+    <div>
       <div className="flex items-start justify-between mb-1">
         <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Today</h2>
         {streak > 0 && (

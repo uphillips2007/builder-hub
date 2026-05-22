@@ -65,7 +65,7 @@ export default function WeeklyReflection() {
     .filter((r) => r.week !== week)
 
   return (
-    <div className="max-w-2xl">
+    <div>
       <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">Weekly Reflection</h2>
       <p className="text-sm text-neutral-400 dark:text-neutral-500 mb-8">{formatWeekRange(week)}</p>
 
