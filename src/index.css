@@ -31,12 +31,27 @@
   --shimmer-shine:    #2e2e2e;
 }
 
+:root {
+  --font: 'DM Sans', system-ui, sans-serif;
+}
+
 body {
   margin: 0;
-  font-family: 'DM Sans', system-ui, sans-serif;
+  font-family: var(--font);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Compact density mode */
+.compact .item-enter li,
+.compact li.item-enter {
+  padding-top: 0.625rem;
+  padding-bottom: 0.625rem;
+}
+.compact .space-y-3 { gap: 0.375rem; }
+.compact .space-y-2\.5 { gap: 0.375rem; }
+.compact .mb-10 { margin-bottom: 1.5rem; }
+.compact .mb-8 { margin-bottom: 1rem; }
 
 button:focus-visible,
 a:focus-visible {

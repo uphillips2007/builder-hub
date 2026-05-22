@@ -1,7 +1,18 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { ACCENTS, DEFAULT_ACCENT } from '../lib/themes'
+import { ACCENTS, DEFAULT_ACCENT, FONTS, DEFAULT_FONT } from '../lib/themes'
 
 const ThemeContext = createContext(null)
+
+const loadedFontUrls = new Set()
+
+function loadFont(url) {
+  if (!url || loadedFontUrls.has(url)) return
+  loadedFontUrls.add(url)
+  const link = document.createElement('link')
+  link.rel = 'stylesheet'
+  link.href = url
+  document.head.appendChild(link)
+}
 
 export function ThemeProvider({ children }) {
   const [accent, setAccentName] = useState(() => {
@@ -20,10 +31,26 @@ export function ThemeProvider({ children }) {
   const [hubName, setHubNameState] = useState(
     () => localStorage.getItem('bh-hub-name') || 'Builder Hub'
   )
+  const [font, setFontName] = useState(
+    () => localStorage.getItem('bh-font') || DEFAULT_FONT
+  )
+  const [compact, setCompactState] = useState(
+    () => localStorage.getItem('bh-compact') === 'true'
+  )
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode)
   }, [darkMode])
+
+  useEffect(() => {
+    const f = FONTS[font] ?? FONTS[DEFAULT_FONT]
+    loadFont(f.url)
+    document.documentElement.style.setProperty('--font', f.family)
+  }, [font])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('compact', compact)
+  }, [compact])
 
   function setAccent(name) {
     setAccentName(name)
@@ -40,6 +67,16 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('bh-hub-name', name)
   }
 
+  function setFont(name) {
+    setFontName(name)
+    localStorage.setItem('bh-font', name)
+  }
+
+  function setCompact(val) {
+    setCompactState(val)
+    localStorage.setItem('bh-compact', String(val))
+  }
+
   return (
     <ThemeContext.Provider
       value={{
@@ -49,6 +86,10 @@ export function ThemeProvider({ children }) {
         setDarkMode,
         hubName,
         setHubName,
+        font,
+        setFont,
+        compact,
+        setCompact,
         palette: ACCENTS[accent] ?? ACCENTS[DEFAULT_ACCENT],
       }}
     >

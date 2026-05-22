@@ -45,6 +45,42 @@ export const ACCENTS = {
     text: 'text-rose-600 dark:text-rose-400',
     formBorder: 'border-rose-200 dark:border-rose-800 bg-rose-50 dark:bg-rose-950/30',
   },
+  amber: {
+    name: 'Amber',
+    swatch: '#d97706',
+    button: 'bg-amber-600 hover:bg-amber-700',
+    navActive: 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400',
+    ring: 'focus:ring-amber-500',
+    text: 'text-amber-600 dark:text-amber-400',
+    formBorder: 'border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-950/30',
+  },
+  sky: {
+    name: 'Sky',
+    swatch: '#0284c7',
+    button: 'bg-sky-600 hover:bg-sky-700',
+    navActive: 'bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-400',
+    ring: 'focus:ring-sky-500',
+    text: 'text-sky-600 dark:text-sky-400',
+    formBorder: 'border-sky-200 dark:border-sky-800 bg-sky-50 dark:bg-sky-950/30',
+  },
+  teal: {
+    name: 'Teal',
+    swatch: '#0d9488',
+    button: 'bg-teal-600 hover:bg-teal-700',
+    navActive: 'bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-400',
+    ring: 'focus:ring-teal-500',
+    text: 'text-teal-600 dark:text-teal-400',
+    formBorder: 'border-teal-200 dark:border-teal-800 bg-teal-50 dark:bg-teal-950/30',
+  },
 }
 
 export const DEFAULT_ACCENT = 'charcoal'
+
+export const FONTS = {
+  'dm-sans':        { name: 'DM Sans',        family: "'DM Sans', system-ui, sans-serif",    url: null },
+  'inter':          { name: 'Inter',           family: "'Inter', system-ui, sans-serif",      url: 'https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap' },
+  'lora':           { name: 'Lora',            family: "'Lora', Georgia, serif",              url: 'https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap' },
+  'jetbrains-mono': { name: 'Mono',            family: "'JetBrains Mono', monospace",         url: 'https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap' },
+}
+
+export const DEFAULT_FONT = 'dm-sans'
