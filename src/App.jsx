@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { LayoutDashboard, CalendarDays, FolderKanban, Lightbulb, Sparkles, Settings2, Menu, X } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, FolderKanban, Lightbulb, Sparkles, Settings2, Menu, X, Search } from 'lucide-react'
 import { ThemeProvider, useTheme } from './contexts/ThemeContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ToastProvider } from './contexts/ToastContext'
 import AuthScreen from './components/auth/AuthScreen'
+import CommandPalette from './components/CommandPalette'
 import MigrationBanner from './components/MigrationBanner'
 import RightPanel from './components/RightPanel'
 import Dashboard from './components/Dashboard'
@@ -33,10 +34,20 @@ function LogoMark() {
   )
 }
 
-function NavItems({ active, onNavigate, palette }) {
+function NavItems({ active, onNavigate, palette, onPalette }) {
   return (
     <>
-      <nav className="flex-1 p-2 pt-3 space-y-0.5" aria-label="Main navigation">
+      <div className="px-2 pt-3 pb-1">
+        <button
+          onClick={onPalette}
+          className="w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-neutral-600 dark:text-neutral-500 border border-(--border) hover:bg-(--hover) hover:text-neutral-400 transition-all duration-150"
+        >
+          <Search size={13} />
+          <span className="flex-1 text-left text-xs">Go to...</span>
+          <kbd className="text-[10px] font-mono opacity-60">⌘K</kbd>
+        </button>
+      </div>
+      <nav className="flex-1 p-2 space-y-0.5" aria-label="Main navigation">
         {NAV.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
@@ -78,12 +89,24 @@ function Layout() {
   const [active, setActive] = useState('dashboard')
   const [projectId, setProjectId] = useState(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
+  const [paletteOpen, setPaletteOpen] = useState(false)
   const { palette, hubName } = useTheme()
 
   useEffect(() => {
     document.body.style.overflow = drawerOpen ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
   }, [drawerOpen])
+
+  useEffect(() => {
+    function onKeyDown(e) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setPaletteOpen((o) => !o)
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [])
 
   function navigate(id, pid) {
     setActive(id)
@@ -143,7 +166,7 @@ function Layout() {
             <X size={18} />
           </button>
         </div>
-        <NavItems active={activeNav} onNavigate={navigate} palette={palette} />
+        <NavItems active={activeNav} onNavigate={navigate} palette={palette} onPalette={() => setPaletteOpen(true)} />
       </div>
 
       {/* ── Desktop + content row ───────────────────────────── */}
@@ -156,7 +179,7 @@ function Layout() {
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
           </div>
           </div>
-          <NavItems active={activeNav} onNavigate={navigate} palette={palette} />
+          <NavItems active={activeNav} onNavigate={navigate} palette={palette} onPalette={() => setPaletteOpen(true)} />
         </aside>
 
         <main className="flex-1 min-w-0 w-full px-4 py-6 md:px-8 md:py-12">
@@ -176,6 +199,9 @@ function Layout() {
         </aside>
       </div>
 
+      {paletteOpen && (
+        <CommandPalette onNavigate={navigate} onClose={() => setPaletteOpen(false)} />
+      )}
       <MigrationBanner />
     </div>
   )
