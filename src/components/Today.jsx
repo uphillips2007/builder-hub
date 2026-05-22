@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Pencil, Flame } from 'lucide-react'
 import { useToast } from '../contexts/ToastContext'
 import { EmptyState, JournalIllustration } from './EmptyState'
+import MarkdownContent from './MarkdownContent'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -43,6 +44,7 @@ export default function Today() {
   const [entries, setEntries] = useState([])
   const [loading, setLoading] = useState(true)
   const [text, setText] = useState('')
+  const [preview, setPreview] = useState(false)
   const [editingDate, setEditingDate] = useState(null)
   const [editText, setEditText] = useState('')
 
@@ -126,16 +128,49 @@ export default function Today() {
       <p className="text-sm text-neutral-400 dark:text-neutral-500 mb-8">{formatPageDate(date)}</p>
 
       <form onSubmit={handleSave} className="mb-10">
-        <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2.5">
-          What did you build today?
-        </label>
-        <textarea
-          rows={5}
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder="Describe what you built, shipped, or learned..."
-          className={inputClass}
-        />
+        <div className="flex items-center justify-between mb-2.5">
+          <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300">
+            What did you build today?
+          </label>
+          <div className="flex items-center gap-0.5 bg-(--hover) rounded-lg p-0.5">
+            <button
+              type="button"
+              onClick={() => setPreview(false)}
+              className={`px-3 py-1 text-xs font-semibold rounded-md transition-all duration-150 ${
+                !preview
+                  ? 'bg-(--card) text-gray-900 dark:text-white shadow-sm'
+                  : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300'
+              }`}
+            >
+              Write
+            </button>
+            <button
+              type="button"
+              onClick={() => setPreview(true)}
+              disabled={!text.trim()}
+              className={`px-3 py-1 text-xs font-semibold rounded-md transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed ${
+                preview
+                  ? 'bg-(--card) text-gray-900 dark:text-white shadow-sm'
+                  : 'text-neutral-500 dark:text-neutral-400 hover:text-neutral-700 dark:hover:text-neutral-300'
+              }`}
+            >
+              Preview
+            </button>
+          </div>
+        </div>
+        {preview ? (
+          <div className="min-h-[120px] rounded-xl border border-(--input-border) bg-(--input-bg) px-4 py-3">
+            <MarkdownContent content={text} />
+          </div>
+        ) : (
+          <textarea
+            rows={5}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Describe what you built, shipped, or learned... **bold**, `code`, - bullets"
+            className={inputClass}
+          />
+        )}
         <div className="mt-3 flex items-center gap-3">
           <button
             type="submit"
@@ -198,9 +233,9 @@ export default function Today() {
                   </div>
                 ) : (
                   <div className="flex items-start gap-3">
-                    <p className="flex-1 text-sm text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap leading-relaxed min-w-0">
-                      {entry.text}
-                    </p>
+                    <div className="flex-1 min-w-0">
+                      <MarkdownContent content={entry.text} />
+                    </div>
                     <button
                       onClick={() => startEdit(entry)}
                       className="shrink-0 text-gray-300 dark:text-gray-700 hover:text-gray-500 dark:hover:text-gray-400 opacity-0 group-hover:opacity-100 transition-all duration-150 mt-0.5"
