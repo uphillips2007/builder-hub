@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { Sun, Moon, AlignJustify, Maximize2 } from 'lucide-react'
+import { Sun, Moon, AlignJustify, Maximize2, Sparkles } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useAuth } from '../contexts/AuthContext'
 import { useToast } from '../contexts/ToastContext'
 import { ACCENTS, FONTS } from '../lib/themes'
 
 export default function Settings() {
-  const { accent, setAccent, darkMode, setDarkMode, hubName, setHubName, font, setFont, compact, setCompact, palette } = useTheme()
+  const { accent, setAccent, darkMode, setDarkMode, hubName, setHubName, font, setFont, compact, setCompact, glass, setGlass, palette } = useTheme()
   const { user, signOut } = useAuth()
   const { toast } = useToast()
   const [nameInput, setNameInput] = useState(hubName)
@@ -124,6 +124,34 @@ export default function Settings() {
             </button>
           ))}
         </div>
+      </section>
+
+      {/* Glass */}
+      <section className="mb-8">
+        <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
+          Effects
+        </h3>
+        <button
+          onClick={() => setGlass(!glass)}
+          className={`flex items-center justify-between w-full px-4 py-3 rounded-xl border transition-all duration-200 ${
+            glass
+              ? `border-transparent ${palette.button} text-white`
+              : 'border-(--input-border) dark:border-[#2a2a2a] bg-(--card) text-neutral-600 dark:text-neutral-400 hover:bg-(--hover)'
+          }`}
+        >
+          <div className="flex items-center gap-2.5">
+            <Sparkles size={14} />
+            <div className="text-left">
+              <p className="text-sm font-medium">Glass mode</p>
+              <p className={`text-xs mt-0.5 ${glass ? 'text-white/70' : 'text-neutral-400 dark:text-neutral-600'}`}>
+                Frosted sidebar and panels
+              </p>
+            </div>
+          </div>
+          <div className={`w-8 h-4.5 rounded-full transition-colors duration-200 relative shrink-0 ${glass ? 'bg-white/30' : 'bg-neutral-200 dark:bg-neutral-700'}`}>
+            <div className={`absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white shadow transition-transform duration-200 ${glass ? 'translate-x-4' : 'translate-x-0.5'}`} />
+          </div>
+        </button>
       </section>
 
       {/* Density */}

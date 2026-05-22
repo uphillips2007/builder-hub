@@ -37,6 +37,9 @@ export function ThemeProvider({ children }) {
   const [compact, setCompactState] = useState(
     () => localStorage.getItem('bh-compact') === 'true'
   )
+  const [glass, setGlassState] = useState(
+    () => localStorage.getItem('bh-glass') === 'true'
+  )
 
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode)
@@ -51,6 +54,10 @@ export function ThemeProvider({ children }) {
   useEffect(() => {
     document.documentElement.classList.toggle('compact', compact)
   }, [compact])
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('glass', glass)
+  }, [glass])
 
   function setAccent(name) {
     setAccentName(name)
@@ -77,6 +84,11 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('bh-compact', String(val))
   }
 
+  function setGlass(val) {
+    setGlassState(val)
+    localStorage.setItem('bh-glass', String(val))
+  }
+
   return (
     <ThemeContext.Provider
       value={{
@@ -90,6 +102,8 @@ export function ThemeProvider({ children }) {
         setFont,
         compact,
         setCompact,
+        glass,
+        setGlass,
         palette: ACCENTS[accent] ?? ACCENTS[DEFAULT_ACCENT],
       }}
     >
