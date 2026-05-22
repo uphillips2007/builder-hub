@@ -222,8 +222,9 @@ export default function Projects() {
           {projects.map((project) => (
             <li
               key={project.id}
-              className="rounded-xl border border-gray-200 dark:border-gray-800/60 bg-white dark:bg-[#161616] px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150 group"
+              className="rounded-xl border border-gray-100 dark:border-[#1e1e1e] bg-white dark:bg-[#0f0f0f] pl-6 pr-5 py-4 shadow-sm dark:shadow-none hover:border-gray-200 dark:hover:border-[#2a2a2a] hover:shadow-md transition-all duration-200 group relative overflow-hidden"
             >
+              <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${STATUS_DOT[project.status]}`} />
               {editingId === project.id ? (
                 <div className="space-y-3">
                   <input

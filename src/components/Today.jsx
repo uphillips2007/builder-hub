@@ -129,7 +129,7 @@ export default function Today() {
             {sorted.map((entry) => (
               <li
                 key={entry.date}
-                className="rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-[#161616] px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150 group"
+                className="rounded-xl border border-gray-100 dark:border-[#1e1e1e] bg-white dark:bg-[#0f0f0f] px-5 py-4 shadow-sm dark:shadow-none hover:border-gray-200 dark:hover:border-[#2a2a2a] hover:shadow-md transition-all duration-200 group"
               >
                 <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-2">
                   {entry.date === date && (
