@@ -5,6 +5,26 @@
   box-sizing: border-box;
 }
 
+:root {
+  --bg:           #f3f4f6;
+  --surface:      #ffffff;
+  --card:         #ffffff;
+  --border:       #f3f4f6;
+  --border-hover: #e5e7eb;
+  --input-bg:     #ffffff;
+  --input-border: #e5e7eb;
+}
+
+.dark {
+  --bg:           #0a0a0a;
+  --surface:      #0d0d0d;
+  --card:         #0f0f0f;
+  --border:       #1e1e1e;
+  --border-hover: #2a2a2a;
+  --input-bg:     #1c1c1c;
+  --input-border: #2a2a2a;
+}
+
 body {
   margin: 0;
   font-family: 'Plus Jakarta Sans', system-ui, sans-serif;

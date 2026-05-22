@@ -34,16 +34,14 @@ function calcStreak(entries) {
   return streak
 }
 
-function StatCard({ label, value, icon: Icon, iconColor, iconBg, loading }) {
+function MiniStat({ label, value, icon: Icon, iconColor, loading }) {
   return (
-    <div className="rounded-xl border border-gray-100 dark:border-[#1e1e1e] bg-white dark:bg-[#0f0f0f] px-4 py-4">
-      <div className={`inline-flex items-center justify-center w-8 h-8 rounded-lg ${iconBg} mb-3`}>
-        <Icon size={15} className={iconColor} strokeWidth={2} />
-      </div>
-      <p className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
+    <div className="rounded-xl border border-[--border] bg-[--card] px-4 py-3 text-center">
+      <Icon size={14} className={`${iconColor} mx-auto mb-1.5`} strokeWidth={2} />
+      <p className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
         {loading ? <span className="text-neutral-300 dark:text-neutral-700">—</span> : value}
       </p>
-      <p className="text-xs text-neutral-400 dark:text-neutral-600 mt-0.5">{label}</p>
+      <p className="text-[11px] text-neutral-400 dark:text-neutral-600 mt-0.5">{label}</p>
     </div>
   )
 }
@@ -81,35 +79,10 @@ export default function Dashboard({ onNavigate }) {
   const pausedCount = projects.filter((p) => p.status === 'paused').length
   const shippedCount = projects.filter((p) => p.status === 'shipped').length
 
-  const stats = [
-    {
-      label: streak === 1 ? 'day streak' : 'day streak',
-      value: streak,
-      icon: Flame,
-      iconColor: 'text-amber-500 dark:text-amber-400',
-      iconBg: 'bg-amber-50 dark:bg-amber-950/30',
-    },
-    {
-      label: 'days logged',
-      value: entries.length,
-      icon: CalendarDays,
-      iconColor: 'text-sky-500 dark:text-sky-400',
-      iconBg: 'bg-sky-50 dark:bg-sky-950/30',
-    },
-    {
-      label: 'ideas captured',
-      value: ideaCount,
-      icon: Lightbulb,
-      iconColor: 'text-violet-500 dark:text-violet-400',
-      iconBg: 'bg-violet-50 dark:bg-violet-950/30',
-    },
-    {
-      label: 'active projects',
-      value: activeCount,
-      icon: FolderKanban,
-      iconColor: 'text-emerald-500 dark:text-emerald-400',
-      iconBg: 'bg-emerald-50 dark:bg-emerald-950/30',
-    },
+  const miniStats = [
+    { label: 'days logged',      value: entries.length, icon: CalendarDays, iconColor: 'text-sky-500 dark:text-sky-400' },
+    { label: 'ideas captured',   value: ideaCount,      icon: Lightbulb,    iconColor: 'text-violet-500 dark:text-violet-400' },
+    { label: 'active projects',  value: activeCount,    icon: FolderKanban, iconColor: 'text-emerald-500 dark:text-emerald-400' },
   ]
 
   return (
@@ -125,10 +98,35 @@ export default function Dashboard({ onNavigate }) {
         </p>
       </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-2 gap-3 mb-8">
-        {stats.map((s) => (
-          <StatCard key={s.label} {...s} loading={loading} />
+      {/* Streak hero */}
+      <div className="rounded-xl border border-[--border] bg-[--card] px-5 py-5 mb-3 flex items-center gap-4 shadow-sm dark:shadow-none">
+        <div className="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center shrink-0">
+          <Flame size={20} className="text-amber-500 dark:text-amber-400" strokeWidth={2} />
+        </div>
+        <div>
+          <p className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight leading-none">
+            {loading ? '—' : streak}
+          </p>
+          <p className="text-xs text-neutral-400 dark:text-neutral-600 mt-1">
+            {streak === 1 ? 'day streak' : 'day streak'}
+          </p>
+        </div>
+        {!loading && streak === 0 && (
+          <p className="ml-auto text-xs text-neutral-400 dark:text-neutral-600 text-right">
+            Log today<br />to start a streak
+          </p>
+        )}
+        {!loading && streak > 0 && (
+          <p className="ml-auto text-xs text-neutral-400 dark:text-neutral-600 text-right">
+            Keep it going —<br />log today
+          </p>
+        )}
+      </div>
+
+      {/* Mini stats */}
+      <div className="grid grid-cols-3 gap-2 mb-8">
+        {miniStats.map((s) => (
+          <MiniStat key={s.label} {...s} loading={loading} />
         ))}
       </div>
 
@@ -146,7 +144,7 @@ export default function Dashboard({ onNavigate }) {
             <ArrowRight size={11} />
           </button>
         </div>
-        <div className="rounded-xl border border-gray-100 dark:border-[#1e1e1e] bg-white dark:bg-[#0f0f0f] px-5 py-4">
+        <div className="rounded-xl border border-[--border] bg-[--card] px-5 py-4">
           {loading ? (
             <p className="text-sm text-neutral-300 dark:text-neutral-700">Loading…</p>
           ) : todayEntry ? (
@@ -184,7 +182,7 @@ export default function Dashboard({ onNavigate }) {
           ].map(({ label, count, color }) => (
             <div
               key={label}
-              className="rounded-xl border border-gray-100 dark:border-[#1e1e1e] bg-white dark:bg-[#0f0f0f] px-3 py-3 text-center"
+              className="rounded-xl border border-[--border] bg-[--card] px-3 py-3 text-center"
             >
               <p className={`text-xl font-bold ${color}`}>{loading ? '—' : count}</p>
               <p className="text-[11px] text-neutral-400 dark:text-neutral-600 mt-0.5">{label}</p>
@@ -208,7 +206,7 @@ export default function Dashboard({ onNavigate }) {
               <ArrowRight size={11} />
             </button>
           </div>
-          <div className="rounded-xl border border-gray-100 dark:border-[#1e1e1e] bg-white dark:bg-[#0f0f0f] px-5 py-4">
+          <div className="rounded-xl border border-[--border] bg-[--card] px-5 py-4">
             {loading ? (
               <p className="text-sm text-neutral-300 dark:text-neutral-700">Loading…</p>
             ) : lastReflection ? (

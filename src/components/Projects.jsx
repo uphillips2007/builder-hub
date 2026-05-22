@@ -118,7 +118,7 @@ export default function Projects() {
     setEditingId(null)
   }
 
-  const inputClass = `w-full rounded-lg border border-gray-200 dark:border-[#2a2a2a] bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
+  const inputClass = `w-full rounded-lg border border-[--input-border] bg-[--input-bg] text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
 
   return (
     <div>
@@ -222,7 +222,7 @@ export default function Projects() {
           {projects.map((project) => (
             <li
               key={project.id}
-              className="rounded-xl border border-gray-100 dark:border-[#1e1e1e] bg-white dark:bg-[#0f0f0f] pl-6 pr-5 py-4 shadow-sm dark:shadow-none hover:border-gray-200 dark:hover:border-[#2a2a2a] hover:shadow-md transition-all duration-200 group relative overflow-hidden"
+              className="rounded-xl border border-[--border] bg-[--card] pl-6 pr-5 py-4 shadow-sm dark:shadow-none hover:border-[--border-hover] hover:shadow-md transition-all duration-200 group relative overflow-hidden"
             >
               <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${STATUS_DOT[project.status]}`} />
               {editingId === project.id ? (
@@ -294,7 +294,7 @@ export default function Projects() {
                       </button>
 
                       {openDropdown === project.id && (
-                        <div className="absolute right-0 top-full mt-1.5 z-20 min-w-[130px] rounded-xl border border-gray-100 dark:border-[#2a2a2a] bg-white dark:bg-[#1c1c1c] shadow-xl py-1.5 overflow-hidden">
+                        <div className="absolute right-0 top-full mt-1.5 z-20 min-w-[130px] rounded-xl border border-[--border-hover] bg-[--input-bg] shadow-xl py-1.5 overflow-hidden">
                           {STATUS_OPTIONS.map((s) => (
                             <button
                               key={s}

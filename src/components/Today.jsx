@@ -104,7 +104,7 @@ export default function Today() {
 
   const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date))
 
-  const inputClass = `w-full rounded-xl border border-gray-200 dark:border-[#2a2a2a] bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
+  const inputClass = `w-full rounded-xl border border-[--input-border] bg-[--input-bg] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
 
   const streak = calcStreak(entries)
 
@@ -164,7 +164,7 @@ export default function Today() {
             {sorted.map((entry) => (
               <li
                 key={entry.date}
-                className="rounded-xl border border-gray-100 dark:border-[#1e1e1e] bg-white dark:bg-[#0f0f0f] px-5 py-4 shadow-sm dark:shadow-none hover:border-gray-200 dark:hover:border-[#2a2a2a] hover:shadow-md transition-all duration-200 group"
+                className="rounded-xl border border-[--border] bg-[--card] px-5 py-4 shadow-sm dark:shadow-none hover:border-[--border-hover] hover:shadow-md transition-all duration-200 group"
               >
                 <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-2">
                   {entry.date === date && (

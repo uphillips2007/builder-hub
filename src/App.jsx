@@ -57,7 +57,7 @@ function NavItems({ active, onNavigate, palette }) {
         ))}
       </nav>
 
-      <div className="p-2 border-t border-gray-100 dark:border-[#1a1a1a]">
+      <div className="p-2 border-t border-[--border]">
         <button
           onClick={() => onNavigate('settings')}
           aria-current={active === 'settings' ? 'page' : undefined}
@@ -92,10 +92,10 @@ function Layout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-[#0a0a0a] text-gray-900 dark:text-white overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-[--bg] text-gray-900 dark:text-white overflow-x-hidden">
 
       {/* ── Mobile top bar ─────────────────────────────────── */}
-      <header className="md:hidden shrink-0 flex items-center justify-between px-4 h-14 bg-white dark:bg-[#0d0d0d] border-b border-gray-100 dark:border-[#1a1a1a]">
+      <header className="md:hidden shrink-0 flex items-center justify-between px-4 h-14 bg-[--surface] border-b border-[--border]">
         <div className="flex items-center gap-2.5">
             <LogoMark />
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
@@ -122,12 +122,12 @@ function Layout() {
       <div
         className={[
           'md:hidden fixed inset-y-0 left-0 z-40 w-72 flex flex-col',
-          'bg-white dark:bg-[#0d0d0d] border-r border-gray-100 dark:border-[#1a1a1a]',
+          'bg-[--surface] border-r border-[--border]',
           'transition-transform duration-200 ease-in-out',
           drawerOpen ? 'translate-x-0' : '-translate-x-full',
         ].join(' ')}
       >
-        <div className="flex items-center justify-between px-5 h-14 border-b border-gray-100 dark:border-[#1a1a1a] shrink-0">
+        <div className="flex items-center justify-between px-5 h-14 border-b border-[--border] shrink-0">
           <div className="flex items-center gap-2.5">
             <LogoMark />
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
@@ -146,8 +146,8 @@ function Layout() {
       {/* ── Desktop + content row ───────────────────────────── */}
       <div className="flex flex-1">
 
-        <aside className="hidden md:flex md:flex-col md:w-56 shrink-0 border-r border-gray-100 dark:border-[#1a1a1a] bg-white dark:bg-[#0d0d0d]">
-          <div className="px-5 py-6 border-b border-gray-100 dark:border-[#1a1a1a]">
+        <aside className="hidden md:flex md:flex-col md:w-56 shrink-0 border-r border-[--border] bg-[--surface]">
+          <div className="px-5 py-6 border-b border-[--border]">
             <div className="flex items-center gap-2.5">
             <LogoMark />
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
