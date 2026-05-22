@@ -73,7 +73,7 @@ export default function IdeaDump() {
   const inputClass = `w-full rounded-lg border border-(--input-border) bg-(--input-bg) text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
 
   return (
-    <div>
+    <div className="max-w-2xl">
       <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">Idea Dump</h2>
       <p className="text-sm text-neutral-400 dark:text-neutral-500 mb-8">
         {ideas.length > 0 ? `${ideas.length} ${ideas.length === 1 ? 'idea' : 'ideas'}` : 'Capture anything worth remembering'}

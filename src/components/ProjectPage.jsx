@@ -89,7 +89,7 @@ export default function ProjectPage({ projectId, onBack }) {
   const inputClass = `w-full rounded-xl border border-(--input-border) bg-(--input-bg) text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
 
   return (
-    <div>
+    <div className="max-w-2xl">
       <button
         onClick={onBack}
         className="flex items-center gap-1.5 text-sm text-neutral-400 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 transition-colors duration-150 mb-6 -ml-0.5"
