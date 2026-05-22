@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Lightbulb, Pencil, X } from 'lucide-react'
+import { Sk } from './Skeleton'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -93,7 +94,14 @@ export default function IdeaDump() {
       </form>
 
       {loading ? (
-        <div className="py-8 text-center text-sm text-neutral-400 dark:text-neutral-600">Loading…</div>
+        <div className="space-y-2.5">
+          {[0, 1, 2, 3].map((i) => (
+            <div key={i} className="rounded-xl border border-(--border) bg-(--card) px-5 py-4">
+              <Sk className="h-4 w-3/4 mb-2" />
+              <Sk className="h-3 w-20" />
+            </div>
+          ))}
+        </div>
       ) : ideas.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <Lightbulb size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
