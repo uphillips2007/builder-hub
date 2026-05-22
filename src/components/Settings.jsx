@@ -157,6 +157,54 @@ export default function Settings() {
         </div>
       </section>
 
+      {/* Logo downloads */}
+      <section className="mb-8">
+        <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
+          Logo
+        </h3>
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between px-4 py-3 rounded-xl border border-(--border) bg-(--card)">
+            <div>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Wordmark — Dark</p>
+              <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">For light backgrounds</p>
+            </div>
+            <a
+              href="/logo.svg"
+              download="builder-hub-logo.svg"
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-(--input-border) bg-(--hover) text-neutral-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
+            >
+              Download
+            </a>
+          </div>
+          <div className="flex items-center justify-between px-4 py-3 rounded-xl border border-(--border) bg-gray-900 dark:bg-[#111]">
+            <div>
+              <p className="text-sm font-medium text-white">Wordmark — White</p>
+              <p className="text-xs text-neutral-400 mt-0.5">For dark backgrounds</p>
+            </div>
+            <a
+              href="/logo-white.svg"
+              download="builder-hub-logo-white.svg"
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-white/20 bg-white/10 text-white hover:bg-white/20 transition-colors duration-150"
+            >
+              Download
+            </a>
+          </div>
+          <div className="flex items-center justify-between px-4 py-3 rounded-xl border border-(--border) bg-(--card)">
+            <div>
+              <p className="text-sm font-medium text-gray-900 dark:text-white">Mark only</p>
+              <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">Square icon, dark</p>
+            </div>
+            <a
+              href="/logo-mark.svg"
+              download="builder-hub-mark.svg"
+              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-(--input-border) bg-(--hover) text-neutral-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
+            >
+              Download
+            </a>
+          </div>
+        </div>
+      </section>
+
       {/* Account */}
       <section className="pt-8 border-t border-(--border)">
         <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
