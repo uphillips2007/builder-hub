@@ -8,6 +8,7 @@ import MigrationBanner from './components/MigrationBanner'
 import Dashboard from './components/Dashboard'
 import Today from './components/Today'
 import Projects from './components/Projects'
+import ProjectPage from './components/ProjectPage'
 import IdeaDump from './components/IdeaDump'
 import WeeklyReflection from './components/WeeklyReflection'
 import Settings from './components/Settings'
@@ -79,6 +80,7 @@ function NavItems({ active, onNavigate, palette }) {
 
 function Layout() {
   const [active, setActive] = useState('dashboard')
+  const [projectId, setProjectId] = useState(null)
   const [drawerOpen, setDrawerOpen] = useState(false)
   const { palette, hubName } = useTheme()
 
@@ -87,10 +89,14 @@ function Layout() {
     return () => { document.body.style.overflow = '' }
   }, [drawerOpen])
 
-  function navigate(id) {
+  function navigate(id, pid) {
     setActive(id)
+    setProjectId(pid ?? null)
     setDrawerOpen(false)
   }
+
+  // Highlight 'projects' in nav when inside a project page
+  const activeNav = active === 'project' ? 'projects' : active
 
   return (
     <div className="min-h-screen flex flex-col bg-(--bg) text-gray-900 dark:text-white overflow-x-hidden">
@@ -141,7 +147,7 @@ function Layout() {
             <X size={18} />
           </button>
         </div>
-        <NavItems active={active} onNavigate={navigate} palette={palette} />
+        <NavItems active={activeNav} onNavigate={navigate} palette={palette} />
       </div>
 
       {/* ── Desktop + content row ───────────────────────────── */}
@@ -154,14 +160,15 @@ function Layout() {
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
           </div>
           </div>
-          <NavItems active={active} onNavigate={navigate} palette={palette} />
+          <NavItems active={activeNav} onNavigate={navigate} palette={palette} />
         </aside>
 
         <main className="flex-1 min-w-0 w-full px-4 py-6 md:px-12 md:py-12 md:max-w-2xl">
-          <div key={active} className="page-enter">
+          <div key={active === 'project' ? `project-${projectId}` : active} className="page-enter">
             {active === 'dashboard'  && <Dashboard onNavigate={navigate} />}
             {active === 'today'      && <Today />}
-            {active === 'projects'   && <Projects />}
+            {active === 'projects'   && <Projects onNavigate={navigate} />}
+            {active === 'project'    && <ProjectPage projectId={projectId} onBack={() => navigate('projects')} />}
             {active === 'ideas'      && <IdeaDump />}
             {active === 'reflection' && <WeeklyReflection />}
             {active === 'settings'   && <Settings />}

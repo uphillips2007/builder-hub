@@ -31,7 +31,7 @@ function emptyForm() {
   return { name: '', description: '', status: 'active' }
 }
 
-export default function Projects() {
+export default function Projects({ onNavigate }) {
   const { palette } = useTheme()
   const { user } = useAuth()
   const { toast } = useToast()
@@ -267,9 +267,14 @@ export default function Projects() {
               ) : (
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate leading-snug">
-                      {project.name}
-                    </h3>
+                    <button
+                      onClick={() => onNavigate('project', project.id)}
+                      className="text-left group/title"
+                    >
+                      <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate leading-snug group-hover/title:underline underline-offset-2">
+                        {project.name}
+                      </h3>
+                    </button>
                     {project.description && (
                       <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 leading-relaxed">
                         {project.description}
