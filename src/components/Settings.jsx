@@ -1,15 +1,16 @@
-import { useState } from 'react'
-import { Sun, Moon, AlignJustify, Maximize2, Sparkles } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { AlignJustify, Maximize2 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useAuth } from '../contexts/AuthContext'
 import { useToast } from '../contexts/ToastContext'
-import { ACCENTS, FONTS } from '../lib/themes'
+import { FONTS } from '../lib/themes'
 
 export default function Settings() {
-  const { accent, setAccent, darkMode, setDarkMode, hubName, setHubName, font, setFont, compact, setCompact, glass, setGlass, palette } = useTheme()
+  const { accentColor, setAccentColor, hubName, setHubName, font, setFont, compact, setCompact, palette } = useTheme()
   const { user, signOut } = useAuth()
   const { toast } = useToast()
   const [nameInput, setNameInput] = useState(hubName)
+  const colorRef = useRef(null)
 
   function saveHubName(e) {
     e.preventDefault()
@@ -44,63 +45,33 @@ export default function Settings() {
         </form>
       </section>
 
-      {/* Appearance */}
-      <section className="mb-8">
-        <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
-          Appearance
-        </h3>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setDarkMode(false)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
-              !darkMode
-                ? `border-transparent ${palette.button} text-white`
-                : 'border-(--input-border) dark:border-[#2a2a2a] text-neutral-600 dark:text-neutral-400 hover:bg-(--hover)'
-            }`}
-          >
-            <Sun size={14} />
-            Light
-          </button>
-          <button
-            onClick={() => setDarkMode(true)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
-              darkMode
-                ? `border-transparent ${palette.button} text-white`
-                : 'border-(--input-border) dark:border-[#2a2a2a] text-neutral-600 dark:text-neutral-400 hover:bg-(--hover)'
-            }`}
-          >
-            <Moon size={14} />
-            Dark
-          </button>
-        </div>
-      </section>
-
       {/* Accent color */}
       <section className="mb-8">
         <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
           Accent Color
         </h3>
-        <div className="flex flex-wrap gap-3">
-          {Object.entries(ACCENTS).map(([key, val]) => (
-            <button
-              key={key}
-              onClick={() => setAccent(key)}
-              title={val.name}
-              style={{
-                backgroundColor: val.swatch,
-                boxShadow:
-                  accent === key
-                    ? `0 0 0 2px ${darkMode ? '#030712' : '#f9fafb'}, 0 0 0 4px ${val.swatch}`
-                    : undefined,
-                transform: accent === key ? 'scale(1.15)' : undefined,
-              }}
-              className="w-7 h-7 rounded-full transition-all hover:scale-110 cursor-pointer"
+        <div className="flex items-center gap-4">
+          <div className="relative shrink-0">
+            <div
+              onClick={() => colorRef.current?.click()}
+              className="w-12 h-12 rounded-full cursor-pointer shadow-md ring-2 ring-white/10 transition-transform hover:scale-105"
+              style={{ background: accentColor }}
             />
-          ))}
+            <input
+              ref={colorRef}
+              type="color"
+              value={accentColor}
+              onChange={(e) => setAccentColor(e.target.value)}
+              className="absolute inset-0 opacity-0 w-full h-full cursor-pointer rounded-full"
+            />
+          </div>
+          <div>
+            <p className="text-sm font-mono font-medium text-gray-900 dark:text-white">
+              {accentColor.toUpperCase()}
+            </p>
+            <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">Click the circle to open color picker</p>
+          </div>
         </div>
-        <p className="text-xs text-neutral-400 dark:text-neutral-600 mt-3">
-          {ACCENTS[accent]?.name}
-        </p>
       </section>
 
       {/* Font */}
@@ -108,7 +79,7 @@ export default function Settings() {
         <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
           Font
         </h3>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex gap-2">
           {Object.entries(FONTS).map(([key, val]) => (
             <button
               key={key}
@@ -124,34 +95,6 @@ export default function Settings() {
             </button>
           ))}
         </div>
-      </section>
-
-      {/* Glass */}
-      <section className="mb-8">
-        <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
-          Effects
-        </h3>
-        <button
-          onClick={() => setGlass(!glass)}
-          className={`flex items-center justify-between w-full px-4 py-3 rounded-xl border transition-all duration-200 ${
-            glass
-              ? `border-transparent ${palette.button} text-white`
-              : 'border-(--input-border) dark:border-[#2a2a2a] bg-(--card) text-neutral-600 dark:text-neutral-400 hover:bg-(--hover)'
-          }`}
-        >
-          <div className="flex items-center gap-2.5">
-            <Sparkles size={14} />
-            <div className="text-left">
-              <p className="text-sm font-medium">Glass mode</p>
-              <p className={`text-xs mt-0.5 ${glass ? 'text-white/70' : 'text-neutral-400 dark:text-neutral-600'}`}>
-                Frosted sidebar and panels
-              </p>
-            </div>
-          </div>
-          <div className={`w-8 h-4.5 rounded-full transition-colors duration-200 relative shrink-0 ${glass ? 'bg-white/30' : 'bg-neutral-200 dark:bg-neutral-700'}`}>
-            <div className={`absolute top-0.5 w-3.5 h-3.5 rounded-full bg-white shadow transition-transform duration-200 ${glass ? 'translate-x-4' : 'translate-x-0.5'}`} />
-          </div>
-        </button>
       </section>
 
       {/* Density */}
@@ -182,54 +125,6 @@ export default function Settings() {
             <AlignJustify size={14} />
             Compact
           </button>
-        </div>
-      </section>
-
-      {/* Logo downloads */}
-      <section className="mb-8">
-        <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
-          Logo
-        </h3>
-        <div className="space-y-2.5">
-          <div className="flex items-center justify-between px-4 py-3 rounded-xl border border-(--border) bg-(--card)">
-            <div>
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Wordmark — Dark</p>
-              <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">For light backgrounds</p>
-            </div>
-            <a
-              href="/logo.svg"
-              download="builder-hub-logo.svg"
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-(--input-border) bg-(--hover) text-neutral-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
-            >
-              Download
-            </a>
-          </div>
-          <div className="flex items-center justify-between px-4 py-3 rounded-xl border border-(--border) bg-gray-900 dark:bg-[#111]">
-            <div>
-              <p className="text-sm font-medium text-white">Wordmark — White</p>
-              <p className="text-xs text-neutral-400 mt-0.5">For dark backgrounds</p>
-            </div>
-            <a
-              href="/logo-white.svg"
-              download="builder-hub-logo-white.svg"
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-white/20 bg-white/10 text-white hover:bg-white/20 transition-colors duration-150"
-            >
-              Download
-            </a>
-          </div>
-          <div className="flex items-center justify-between px-4 py-3 rounded-xl border border-(--border) bg-(--card)">
-            <div>
-              <p className="text-sm font-medium text-gray-900 dark:text-white">Mark only</p>
-              <p className="text-xs text-neutral-400 dark:text-neutral-500 mt-0.5">Square icon, dark</p>
-            </div>
-            <a
-              href="/logo-mark.svg"
-              download="builder-hub-mark.svg"
-              className="px-3 py-1.5 text-xs font-semibold rounded-lg border border-(--input-border) bg-(--hover) text-neutral-600 dark:text-neutral-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-150"
-            >
-              Download
-            </a>
-          </div>
         </div>
       </section>
 

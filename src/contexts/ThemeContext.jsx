@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react'
-import { ACCENTS, DEFAULT_ACCENT, FONTS, DEFAULT_FONT } from '../lib/themes'
+import { PALETTE, FONTS, DEFAULT_FONT, DEFAULT_ACCENT_COLOR } from '../lib/themes'
 
 const ThemeContext = createContext(null)
 
@@ -14,19 +14,31 @@ function loadFont(url) {
   document.head.appendChild(link)
 }
 
+function hexToRgba(hex, alpha) {
+  const r = parseInt(hex.slice(1, 3), 16)
+  const g = parseInt(hex.slice(3, 5), 16)
+  const b = parseInt(hex.slice(5, 7), 16)
+  return `rgba(${r},${g},${b},${alpha})`
+}
+
+function darkenHex(hex, amount = 32) {
+  const r = Math.max(0, parseInt(hex.slice(1, 3), 16) - amount)
+  const g = Math.max(0, parseInt(hex.slice(3, 5), 16) - amount)
+  const b = Math.max(0, parseInt(hex.slice(5, 7), 16) - amount)
+  return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`
+}
+
+function applyAccent(hex) {
+  const root = document.documentElement.style
+  root.setProperty('--accent',        hex)
+  root.setProperty('--accent-hover',  darkenHex(hex, 32))
+  root.setProperty('--accent-subtle', hexToRgba(hex, 0.13))
+  root.setProperty('--accent-muted',  hexToRgba(hex, 0.22))
+}
+
 export function ThemeProvider({ children }) {
-  const [accent, setAccentName] = useState(() => {
-    // v3: force charcoal — clears any leftover rose/old accent
-    const themeVer = localStorage.getItem('bh-theme-ver')
-    if (themeVer !== '3') {
-      localStorage.setItem('bh-theme-ver', '3')
-      localStorage.removeItem('bh-accent')
-      return DEFAULT_ACCENT
-    }
-    return localStorage.getItem('bh-accent') || DEFAULT_ACCENT
-  })
-  const [darkMode, setDarkModeState] = useState(
-    () => localStorage.getItem('bh-dark') === 'true'
+  const [accentColor, setAccentColorState] = useState(
+    () => localStorage.getItem('bh-accent-color') || DEFAULT_ACCENT_COLOR
   )
   const [hubName, setHubNameState] = useState(
     () => localStorage.getItem('bh-hub-name') || 'Builder Hub'
@@ -37,13 +49,15 @@ export function ThemeProvider({ children }) {
   const [compact, setCompactState] = useState(
     () => localStorage.getItem('bh-compact') === 'true'
   )
-  const [glass, setGlassState] = useState(
-    () => localStorage.getItem('bh-glass') === 'true'
-  )
+
+  // Always dark
+  useEffect(() => {
+    document.documentElement.classList.add('dark')
+  }, [])
 
   useEffect(() => {
-    document.documentElement.classList.toggle('dark', darkMode)
-  }, [darkMode])
+    applyAccent(accentColor)
+  }, [accentColor])
 
   useEffect(() => {
     const f = FONTS[font] ?? FONTS[DEFAULT_FONT]
@@ -55,18 +69,9 @@ export function ThemeProvider({ children }) {
     document.documentElement.classList.toggle('compact', compact)
   }, [compact])
 
-  useEffect(() => {
-    document.documentElement.classList.toggle('glass', glass)
-  }, [glass])
-
-  function setAccent(name) {
-    setAccentName(name)
-    localStorage.setItem('bh-accent', name)
-  }
-
-  function setDarkMode(val) {
-    setDarkModeState(val)
-    localStorage.setItem('bh-dark', String(val))
+  function setAccentColor(hex) {
+    setAccentColorState(hex)
+    localStorage.setItem('bh-accent-color', hex)
   }
 
   function setHubName(name) {
@@ -84,27 +89,18 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('bh-compact', String(val))
   }
 
-  function setGlass(val) {
-    setGlassState(val)
-    localStorage.setItem('bh-glass', String(val))
-  }
-
   return (
     <ThemeContext.Provider
       value={{
-        accent,
-        setAccent,
-        darkMode,
-        setDarkMode,
+        accentColor,
+        setAccentColor,
         hubName,
         setHubName,
         font,
         setFont,
         compact,
         setCompact,
-        glass,
-        setGlass,
-        palette: ACCENTS[accent] ?? ACCENTS[DEFAULT_ACCENT],
+        palette: PALETTE,
       }}
     >
       {children}

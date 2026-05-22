@@ -42,74 +42,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* === Liquid Glass mode === */
-
-/* Colorful blob background */
-html.glass body {
-  background:
-    radial-gradient(ellipse 55% 45% at 8%  15%, rgba(225, 29,  72,  0.28) 0%, transparent 65%),
-    radial-gradient(ellipse 45% 55% at 85% 8%,  rgba(139, 92,  246, 0.22) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 40% at 55% 85%, rgba(59,  130, 246, 0.18) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 50% at 90% 75%, rgba(16,  185, 129, 0.14) 0%, transparent 65%),
-    #f0ece6;
-}
-
-html.dark.glass body {
-  background:
-    radial-gradient(ellipse 55% 45% at 8%  15%, rgba(225, 29,  72,  0.22) 0%, transparent 65%),
-    radial-gradient(ellipse 45% 55% at 85% 8%,  rgba(139, 92,  246, 0.18) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 40% at 55% 85%, rgba(59,  130, 246, 0.14) 0%, transparent 65%),
-    radial-gradient(ellipse 35% 50% at 90% 75%, rgba(16,  185, 129, 0.10) 0%, transparent 65%),
-    #0a0a0a;
-}
-
-/* Semi-transparent tokens */
-html.glass {
-  --surface:      rgba(255, 255, 255, 0.52);
-  --card:         rgba(255, 255, 255, 0.42);
-  --input-bg:     rgba(255, 255, 255, 0.48);
-  --hover:        rgba(255, 255, 255, 0.65);
-  --border:       rgba(255, 255, 255, 0.38);
-  --border-hover: rgba(255, 255, 255, 0.55);
-}
-
-html.dark.glass {
-  --surface:      rgba(255, 255, 255, 0.05);
-  --card:         rgba(255, 255, 255, 0.04);
-  --input-bg:     rgba(255, 255, 255, 0.07);
-  --hover:        rgba(255, 255, 255, 0.09);
-  --border:       rgba(255, 255, 255, 0.10);
-  --border-hover: rgba(255, 255, 255, 0.20);
-}
-
-/* Blur on structural panels */
-html.glass aside,
-html.glass header {
-  backdrop-filter: blur(28px) saturate(180%) brightness(1.04);
-  -webkit-backdrop-filter: blur(28px) saturate(180%) brightness(1.04);
-}
-
-/* Liquid glass cards — blur + specular highlight at top edge */
-html.glass li.item-enter,
-html.glass li[class*="rounded"] {
-  backdrop-filter: blur(20px) saturate(160%);
-  -webkit-backdrop-filter: blur(20px) saturate(160%);
-  box-shadow:
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.55),
-    inset 0 -1px 0  rgba(255, 255, 255, 0.10),
-    inset 1px 0 0   rgba(255, 255, 255, 0.12),
-    inset -1px 0 0  rgba(255, 255, 255, 0.08),
-    0 8px 32px rgba(0, 0, 0, 0.08) !important;
-}
-
-html.dark.glass li.item-enter,
-html.dark.glass li[class*="rounded"] {
-  box-shadow:
-    inset 0 1.5px 0 rgba(255, 255, 255, 0.18),
-    inset 0 -1px 0  rgba(255, 255, 255, 0.04),
-    inset 1px 0 0   rgba(255, 255, 255, 0.05),
-    inset -1px 0 0  rgba(255, 255, 255, 0.03),
-    0 8px 32px rgba(0, 0, 0, 0.35) !important;
+/* Accent color defaults — overridden immediately by ThemeContext */
+:root {
+  --accent:        #e11d48;
+  --accent-hover:  #c0152f;
+  --accent-subtle: rgba(225, 29, 72, 0.13);
+  --accent-muted:  rgba(225, 29, 72, 0.22);
 }
 
 /* Compact density mode */
