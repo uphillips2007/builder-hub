@@ -36,7 +36,7 @@ function calcStreak(entries) {
 
 function MiniStat({ label, value, icon: Icon, iconColor, loading }) {
   return (
-    <div className="rounded-xl border border-[--border] bg-[--card] px-4 py-3 text-center">
+    <div className="rounded-xl border border-(--border) bg-(--card) px-4 py-3 text-center">
       <Icon size={14} className={`${iconColor} mx-auto mb-1.5`} strokeWidth={2} />
       <p className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
         {loading ? <span className="text-neutral-300 dark:text-neutral-700">—</span> : value}
@@ -111,7 +111,7 @@ export default function Dashboard({ onNavigate }) {
       </div>
 
       {/* Streak hero */}
-      <div className="rounded-xl border border-[--border] bg-[--card] px-5 py-5 mb-3 flex items-center gap-4 shadow-sm dark:shadow-none">
+      <div className="rounded-xl border border-(--border) bg-(--card) px-5 py-5 mb-3 flex items-center gap-4 shadow-sm dark:shadow-none">
         <div className="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center shrink-0">
           <Flame size={20} className="text-amber-500 dark:text-amber-400" strokeWidth={2} />
         </div>
@@ -156,7 +156,7 @@ export default function Dashboard({ onNavigate }) {
             <ArrowRight size={11} />
           </button>
         </div>
-        <div className="rounded-xl border border-[--border] bg-[--card] px-5 py-4">
+        <div className="rounded-xl border border-(--border) bg-(--card) px-5 py-4">
           {loading ? (
             <p className="text-sm text-neutral-300 dark:text-neutral-700">Loading…</p>
           ) : todayEntry ? (
@@ -194,7 +194,7 @@ export default function Dashboard({ onNavigate }) {
           ].map(({ label, count, color }) => (
             <div
               key={label}
-              className="rounded-xl border border-[--border] bg-[--card] px-3 py-3 text-center"
+              className="rounded-xl border border-(--border) bg-(--card) px-3 py-3 text-center"
             >
               <p className={`text-xl font-bold ${color}`}>{loading ? '—' : count}</p>
               <p className="text-[11px] text-neutral-400 dark:text-neutral-600 mt-0.5">{label}</p>
@@ -218,7 +218,7 @@ export default function Dashboard({ onNavigate }) {
               <ArrowRight size={11} />
             </button>
           </div>
-          <div className="rounded-xl border border-[--border] bg-[--card] px-5 py-4">
+          <div className="rounded-xl border border-(--border) bg-(--card) px-5 py-4">
             {loading ? (
               <p className="text-sm text-neutral-300 dark:text-neutral-700">Loading…</p>
             ) : lastReflection ? (

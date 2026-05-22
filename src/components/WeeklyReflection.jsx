@@ -78,7 +78,7 @@ export default function WeeklyReflection() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="People, problems, moments, work — anything that made you feel alive..."
-          className={`w-full rounded-xl border border-[--input-border] bg-[--input-bg] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`}
+          className={`w-full rounded-xl border border-(--input-border) bg-(--input-bg) text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`}
         />
         <div className="mt-3 flex items-center gap-3">
           <button
@@ -112,7 +112,7 @@ export default function WeeklyReflection() {
             {past.map((r) => (
               <li
                 key={r.week}
-                className="rounded-xl border border-[--border] bg-[--card] px-5 py-4 shadow-sm dark:shadow-none hover:border-[--border-hover] hover:shadow-md transition-all duration-200"
+                className="rounded-xl border border-(--border) bg-(--card) px-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md transition-all duration-200"
               >
                 <p className="text-[11px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wide mb-2">
                   {formatWeekRange(r.week)}

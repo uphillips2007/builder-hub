@@ -65,7 +65,7 @@ export default function IdeaDump() {
     setEditText('')
   }
 
-  const inputClass = `w-full rounded-lg border border-[--input-border] bg-[--input-bg] text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
+  const inputClass = `w-full rounded-lg border border-(--input-border) bg-(--input-bg) text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
 
   return (
     <div>
@@ -81,7 +81,7 @@ export default function IdeaDump() {
           onChange={(e) => setInput(e.target.value)}
           placeholder="Drop an idea..."
           autoFocus
-          className={`flex-1 rounded-xl border border-[--input-border] bg-[--input-bg] text-gray-900 dark:text-white px-4 py-2.5 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`}
+          className={`flex-1 rounded-xl border border-(--input-border) bg-(--input-bg) text-gray-900 dark:text-white px-4 py-2.5 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`}
         />
         <button
           type="submit"
@@ -105,7 +105,7 @@ export default function IdeaDump() {
           {ideas.map((idea) => (
             <li
               key={idea.id}
-              className="rounded-xl border border-[--border] bg-[--card] px-5 py-4 shadow-sm dark:shadow-none hover:border-[--border-hover] hover:shadow-md transition-all duration-200 group"
+              className="rounded-xl border border-(--border) bg-(--card) px-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md transition-all duration-200 group"
             >
               {editingId === idea.id ? (
                 <div>

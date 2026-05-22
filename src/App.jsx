@@ -57,7 +57,7 @@ function NavItems({ active, onNavigate, palette }) {
         ))}
       </nav>
 
-      <div className="p-2 border-t border-[--border]">
+      <div className="p-2 border-t border-(--border)">
         <button
           onClick={() => onNavigate('settings')}
           aria-current={active === 'settings' ? 'page' : undefined}
@@ -92,11 +92,11 @@ function Layout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[--bg] text-gray-900 dark:text-white overflow-x-hidden">
+    <div className="min-h-screen flex flex-col bg-(--bg) text-gray-900 dark:text-white overflow-x-hidden">
 
       {/* ── Mobile top bar ─────────────────────────────────── */}
-      <header className="md:hidden shrink-0 flex items-center justify-between px-4 h-14 bg-[--surface] border-b border-[--border]">
-        <div className="flex items-center gap-2.5">
+      <header className="md:hidden shrink-0 flex items-center justify-between px-4 h-14 bg-(--surface) border-b border-(--border)">
+        <div className="flex items-center gap-2.5 text-gray-900 dark:text-white">
             <LogoMark />
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
           </div>
@@ -122,13 +122,13 @@ function Layout() {
       <div
         className={[
           'md:hidden fixed inset-y-0 left-0 z-40 w-72 flex flex-col',
-          'bg-[--surface] border-r border-[--border]',
+          'bg-(--surface) border-r border-(--border)',
           'transition-transform duration-200 ease-in-out',
           drawerOpen ? 'translate-x-0' : '-translate-x-full',
         ].join(' ')}
       >
-        <div className="flex items-center justify-between px-5 h-14 border-b border-[--border] shrink-0">
-          <div className="flex items-center gap-2.5">
+        <div className="flex items-center justify-between px-5 h-14 border-b border-(--border) shrink-0">
+          <div className="flex items-center gap-2.5 text-gray-900 dark:text-white">
             <LogoMark />
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
           </div>
@@ -146,9 +146,9 @@ function Layout() {
       {/* ── Desktop + content row ───────────────────────────── */}
       <div className="flex flex-1">
 
-        <aside className="hidden md:flex md:flex-col md:w-56 shrink-0 border-r border-[--border] bg-[--surface]">
-          <div className="px-5 py-6 border-b border-[--border]">
-            <div className="flex items-center gap-2.5">
+        <aside className="hidden md:flex md:flex-col md:w-56 shrink-0 border-r border-(--border) bg-(--surface)">
+          <div className="px-5 py-6 border-b border-(--border)">
+            <div className="flex items-center gap-2.5 text-gray-900 dark:text-white">
             <LogoMark />
             <span className="text-sm font-semibold tracking-tight">{hubName}</span>
           </div>
