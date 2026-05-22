@@ -110,10 +110,11 @@ export default function IdeaDump() {
         </div>
       ) : (
         <ul className="space-y-2.5">
-          {ideas.map((idea) => (
+          {ideas.map((idea, i) => (
             <li
               key={idea.id}
-              className="rounded-xl border border-(--border) bg-(--card) px-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md transition-all duration-200 group"
+              className="rounded-xl border border-(--border) bg-(--card) px-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group item-enter"
+              style={{ animationDelay: `${i * 0.04}s` }}
             >
               {editingId === idea.id ? (
                 <div>

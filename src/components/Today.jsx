@@ -115,7 +115,7 @@ export default function Today() {
         <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Today</h2>
         {streak > 0 && (
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/40">
-            <Flame size={14} className="text-amber-500 dark:text-amber-400" strokeWidth={2} />
+            <Flame size={14} className="text-amber-500 dark:text-amber-400 flame-pulse" strokeWidth={2} />
             <span className="text-xs font-semibold text-amber-600 dark:text-amber-400">
               {streak} {streak === 1 ? 'day' : 'days'}
             </span>
@@ -170,10 +170,11 @@ export default function Today() {
             All entries
           </p>
           <ul className="space-y-3">
-            {sorted.map((entry) => (
+            {sorted.map((entry, i) => (
               <li
                 key={entry.date}
-                className="rounded-xl border border-(--border) bg-(--card) px-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md transition-all duration-200 group"
+                className="rounded-xl border border-(--border) bg-(--card) px-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group item-enter"
+                style={{ animationDelay: `${i * 0.05}s` }}
               >
                 <p className="text-xs text-neutral-400 dark:text-neutral-500 mb-2">
                   {entry.date === date && (

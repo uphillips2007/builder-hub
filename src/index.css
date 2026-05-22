@@ -6,23 +6,27 @@
 }
 
 :root {
-  --bg:           #f3f4f6;
-  --surface:      #ffffff;
-  --card:         #ffffff;
-  --border:       #f3f4f6;
-  --border-hover: #e5e7eb;
-  --input-bg:     #ffffff;
-  --input-border: #e5e7eb;
+  --bg:               #f3f4f6;
+  --surface:          #ffffff;
+  --card:             #ffffff;
+  --border:           #f3f4f6;
+  --border-hover:     #e5e7eb;
+  --input-bg:         #ffffff;
+  --input-border:     #e5e7eb;
+  --shimmer-base:     #ebebeb;
+  --shimmer-shine:    #f6f6f6;
 }
 
 .dark {
-  --bg:           #0a0a0a;
-  --surface:      #0d0d0d;
-  --card:         #0f0f0f;
-  --border:       #1e1e1e;
-  --border-hover: #2a2a2a;
-  --input-bg:     #1c1c1c;
-  --input-border: #2a2a2a;
+  --bg:               #0a0a0a;
+  --surface:          #0d0d0d;
+  --card:             #0f0f0f;
+  --border:           #1e1e1e;
+  --border-hover:     #2a2a2a;
+  --input-bg:         #1c1c1c;
+  --input-border:     #2a2a2a;
+  --shimmer-base:     #161616;
+  --shimmer-shine:    #2e2e2e;
 }
 
 body {
@@ -52,19 +56,37 @@ a:focus-visible {
 .shimmer {
   background: linear-gradient(
     90deg,
-    var(--card) 0%,
-    var(--border-hover) 50%,
-    var(--card) 100%
+    var(--shimmer-base)  0%,
+    var(--shimmer-shine) 40%,
+    var(--shimmer-base)  80%
   );
-  background-size: 200% 100%;
-  animation: shimmer 1.4s ease-in-out infinite;
+  background-size: 250% 100%;
+  animation: shimmer 1.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 @keyframes page-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(12px) scale(0.994); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);     }
 }
 
 .page-enter {
-  animation: page-in 0.18s ease-out both;
+  animation: page-in 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes item-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0);    }
+}
+
+.item-enter {
+  animation: item-in 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes flame-pulse {
+  0%, 100% { transform: scale(1);    opacity: 1;    }
+  50%       { transform: scale(1.18); opacity: 0.85; }
+}
+
+.flame-pulse {
+  animation: flame-pulse 2.2s ease-in-out infinite;
 }

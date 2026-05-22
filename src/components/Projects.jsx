@@ -230,10 +230,11 @@ export default function Projects() {
         </div>
       ) : (
         <ul className="space-y-3">
-          {projects.map((project) => (
+          {projects.map((project, i) => (
             <li
               key={project.id}
-              className="rounded-xl border border-(--border) bg-(--card) pl-6 pr-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md transition-all duration-200 group relative overflow-hidden"
+              className="rounded-xl border border-(--border) bg-(--card) pl-6 pr-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group relative overflow-hidden item-enter"
+              style={{ animationDelay: `${i * 0.05}s` }}
             >
               <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${STATUS_DOT[project.status]}`} />
               {editingId === project.id ? (

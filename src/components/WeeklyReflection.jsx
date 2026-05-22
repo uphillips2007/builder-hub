@@ -118,10 +118,11 @@ export default function WeeklyReflection() {
             Previous weeks
           </p>
           <ul className="space-y-3">
-            {past.map((r) => (
+            {past.map((r, i) => (
               <li
                 key={r.week}
-                className="rounded-xl border border-(--border) bg-(--card) px-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md transition-all duration-200"
+                className="rounded-xl border border-(--border) bg-(--card) px-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 item-enter"
+                style={{ animationDelay: `${i * 0.05}s` }}
               >
                 <p className="text-[11px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wide mb-2">
                   {formatWeekRange(r.week)}

@@ -114,7 +114,7 @@ export default function Dashboard({ onNavigate }) {
       {/* Streak hero */}
       <div className="rounded-xl border border-(--border) bg-(--card) px-5 py-5 mb-3 flex items-center gap-4 shadow-sm dark:shadow-none">
         <div className="w-11 h-11 rounded-xl bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center shrink-0">
-          <Flame size={20} className="text-amber-500 dark:text-amber-400" strokeWidth={2} />
+          <Flame size={20} className="text-amber-500 dark:text-amber-400 flame-pulse" strokeWidth={2} />
         </div>
         <div>
           <p className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight leading-none">
