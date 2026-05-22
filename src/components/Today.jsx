@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { CalendarDays, Pencil, Flame } from 'lucide-react'
+import { CalendarDays, Pencil, Flame, Check } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -141,8 +141,8 @@ export default function Today() {
           >
             Save
           </button>
-          <span className={`text-sm font-medium text-green-600 dark:text-green-400 transition-opacity duration-300 ${saved ? 'opacity-100' : 'opacity-0'}`}>
-            ✓ Saved
+          <span className={`flex items-center gap-1 text-sm font-medium text-green-600 dark:text-green-400 transition-opacity duration-300 ${saved ? 'opacity-100' : 'opacity-0'}`}>
+            <Check size={14} strokeWidth={2.5} /> Saved
           </span>
         </div>
       </form>

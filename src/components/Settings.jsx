@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Sun, Moon } from 'lucide-react'
+import { Sun, Moon, Check } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useAuth } from '../contexts/AuthContext'
 import { ACCENTS } from '../lib/themes'
@@ -42,7 +42,9 @@ export default function Settings() {
             Save
           </button>
           {nameSaved && (
-            <span className="self-center text-sm text-green-600 dark:text-green-400 font-medium">✓</span>
+            <span className="self-center text-green-600 dark:text-green-400">
+              <Check size={16} strokeWidth={2.5} />
+            </span>
           )}
         </form>
       </section>

@@ -46,17 +46,22 @@ function MiniStat({ label, value, icon: Icon, iconColor, loading }) {
   )
 }
 
+// Session cache — avoids re-fetching when navigating back to Dashboard
+const _cache = {}
+
 export default function Dashboard({ onNavigate }) {
   const { user } = useAuth()
   const { palette } = useTheme()
 
-  const [loading, setLoading] = useState(true)
-  const [entries, setEntries] = useState([])
-  const [projects, setProjects] = useState([])
-  const [ideaCount, setIdeaCount] = useState(0)
-  const [lastReflection, setLastReflection] = useState(null)
+  const cached = _cache[user.id]
+  const [loading, setLoading] = useState(!cached)
+  const [entries, setEntries] = useState(cached?.entries ?? [])
+  const [projects, setProjects] = useState(cached?.projects ?? [])
+  const [ideaCount, setIdeaCount] = useState(cached?.ideaCount ?? 0)
+  const [lastReflection, setLastReflection] = useState(cached?.lastReflection ?? null)
 
   useEffect(() => {
+    if (_cache[user.id]) return
     async function load() {
       const [e, p, i, r] = await Promise.all([
         supabase.from('today_entries').select('date, text').eq('user_id', user.id).order('date', { ascending: false }),
@@ -64,10 +69,17 @@ export default function Dashboard({ onNavigate }) {
         supabase.from('ideas').select('id', { count: 'exact', head: true }).eq('user_id', user.id),
         supabase.from('reflections').select('week, text').eq('user_id', user.id).order('week', { ascending: false }).limit(1),
       ])
-      if (e.data) setEntries(e.data)
-      if (p.data) setProjects(p.data)
-      if (i.count !== null) setIdeaCount(i.count)
-      if (r.data?.[0]) setLastReflection(r.data[0])
+      const data = {
+        entries:        e.data ?? [],
+        projects:       p.data ?? [],
+        ideaCount:      i.count ?? 0,
+        lastReflection: r.data?.[0] ?? null,
+      }
+      _cache[user.id] = data
+      setEntries(data.entries)
+      setProjects(data.projects)
+      setIdeaCount(data.ideaCount)
+      setLastReflection(data.lastReflection)
       setLoading(false)
     }
     load()
