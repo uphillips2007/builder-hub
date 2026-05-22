@@ -182,7 +182,7 @@ export default function Projects() {
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-150 ${
                     form.status === s
                       ? `${STATUS_BADGE[s]} border-transparent ring-2 ring-neutral-500/40`
-                      : 'border-gray-200 dark:border-[#2a2a2a] text-neutral-500 dark:text-neutral-400 hover:border-gray-300 dark:hover:border-[#3a3a3a] bg-white dark:bg-[#1c1c1c]'
+                      : 'border-(--input-border) dark:border-[#2a2a2a] text-neutral-500 dark:text-neutral-400 hover:border-(--border-hover) dark:hover:border-[#3a3a3a] bg-(--card) dark:bg-[#1c1c1c]'
                   }`}
                 >
                   <span className={`w-1.5 h-1.5 rounded-full ${STATUS_DOT[s]}`} />
@@ -201,7 +201,7 @@ export default function Projects() {
             <button
               type="button"
               onClick={() => { setAdding(false); setForm(emptyForm()) }}
-              className="px-4 py-2 text-neutral-500 dark:text-neutral-400 text-sm font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
+              className="px-4 py-2 text-neutral-500 dark:text-neutral-400 text-sm font-medium rounded-lg hover:bg-(--hover) transition-colors duration-150"
             >
               Cancel
             </button>
@@ -252,7 +252,7 @@ export default function Projects() {
                     </button>
                     <button
                       onClick={cancelEdit}
-                      className="px-4 py-1.5 text-neutral-500 dark:text-neutral-400 text-xs font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
+                      className="px-4 py-1.5 text-neutral-500 dark:text-neutral-400 text-xs font-medium rounded-lg hover:bg-(--hover) transition-colors duration-150"
                     >
                       Cancel
                     </button>

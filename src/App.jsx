@@ -48,7 +48,7 @@ function NavItems({ active, onNavigate, palette }) {
               'w-full text-left flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-150',
               active === id
                 ? palette.navActive
-                : 'text-neutral-500 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-[#1e1e1e] hover:text-gray-900 dark:hover:text-neutral-100',
+                : 'text-neutral-500 dark:text-neutral-400 hover:bg-(--hover) hover:text-gray-900 dark:hover:text-neutral-100',
             ].join(' ')}
           >
             <Icon size={16} strokeWidth={active === id ? 2 : 1.75} />
@@ -65,7 +65,7 @@ function NavItems({ active, onNavigate, palette }) {
             'w-full text-left flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-150',
             active === 'settings'
               ? palette.navActive
-              : 'text-neutral-400 dark:text-neutral-500 hover:bg-gray-100 dark:hover:bg-[#1e1e1e] hover:text-gray-700 dark:hover:text-neutral-300',
+              : 'text-neutral-400 dark:text-neutral-500 hover:bg-(--hover) hover:text-gray-700 dark:hover:text-neutral-300',
           ].join(' ')}
         >
           <Settings2 size={16} strokeWidth={active === 'settings' ? 2 : 1.75} />
@@ -102,7 +102,7 @@ function Layout() {
           </div>
         <button
           onClick={() => setDrawerOpen(true)}
-          className="flex items-center justify-center w-10 h-10 -mr-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
+          className="flex items-center justify-center w-10 h-10 -mr-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-(--hover) transition-colors duration-150"
           aria-label="Open navigation"
         >
           <Menu size={20} />
@@ -134,7 +134,7 @@ function Layout() {
           </div>
           <button
             onClick={() => setDrawerOpen(false)}
-            className="flex items-center justify-center w-8 h-8 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
+            className="flex items-center justify-center w-8 h-8 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-(--hover) transition-colors duration-150"
             aria-label="Close navigation"
           >
             <X size={18} />
@@ -178,7 +178,7 @@ function AppGate() {
 
   if (session === undefined) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex items-center justify-center">
+      <div className="min-h-screen bg-(--bg) dark:bg-[#0a0a0a] flex items-center justify-center">
         <p className="text-sm text-gray-400">Loading…</p>
       </div>
     )

@@ -44,10 +44,10 @@ export default function AuthScreen() {
     }
   }
 
-  const inputClass = `w-full rounded-lg border border-gray-200 dark:border-[#2a2a2a] bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2.5 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
+  const inputClass = `w-full rounded-lg border border-(--input-border) dark:border-[#2a2a2a] bg-(--input-bg) dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2.5 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-[#0a0a0a] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-(--bg) dark:bg-[#0a0a0a] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
 
         <div className="text-center mb-8">
@@ -58,13 +58,13 @@ export default function AuthScreen() {
           </p>
         </div>
 
-        <div className="bg-white dark:bg-[#111111] rounded-2xl border border-gray-200 dark:border-gray-800/60 p-6 shadow-sm">
+        <div className="bg-(--card) dark:bg-[#111111] rounded-2xl border border-(--border) dark:border-gray-800/60 p-6 shadow-sm">
 
           {/* Google button */}
           <button
             onClick={handleGoogleSignIn}
             disabled={googleLoading || loading}
-            className="w-full flex items-center justify-center gap-3 py-2.5 px-4 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
+            className="w-full flex items-center justify-center gap-3 py-2.5 px-4 rounded-lg border border-(--input-border) dark:border-gray-700 bg-(--card) dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-semibold hover:bg-(--hover) dark:hover:bg-gray-700 transition-all duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100"
           >
             {googleLoading ? (
               <span className="text-gray-400">Redirecting…</span>

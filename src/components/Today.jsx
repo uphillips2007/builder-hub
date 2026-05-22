@@ -191,7 +191,7 @@ export default function Today() {
                       </button>
                       <button
                         onClick={cancelEdit}
-                        className="px-4 py-1.5 text-neutral-500 dark:text-neutral-400 text-xs font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
+                        className="px-4 py-1.5 text-neutral-500 dark:text-neutral-400 text-xs font-medium rounded-lg hover:bg-(--hover) transition-colors duration-150"
                       >
                         Cancel
                       </button>

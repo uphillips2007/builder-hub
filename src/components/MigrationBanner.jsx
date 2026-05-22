@@ -126,7 +126,7 @@ export default function MigrationBanner() {
 
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-md">
-      <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-2xl p-4">
+      <div className="bg-(--card) dark:bg-gray-900 rounded-2xl border border-(--border) dark:border-gray-800 shadow-2xl p-4">
         <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
           Import your local data?
         </p>
@@ -144,7 +144,7 @@ export default function MigrationBanner() {
           <button
             onClick={handleDismiss}
             disabled={loading}
-            className="px-4 py-1.5 text-neutral-500 dark:text-neutral-400 text-xs font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="px-4 py-1.5 text-neutral-500 dark:text-neutral-400 text-xs font-medium rounded-lg hover:bg-(--hover) transition-colors"
           >
             Start fresh
           </button>

@@ -6,15 +6,16 @@
 }
 
 :root {
-  --bg:               #f3f4f6;
-  --surface:          #ffffff;
-  --card:             #ffffff;
-  --border:           #f3f4f6;
-  --border-hover:     #e5e7eb;
-  --input-bg:         #ffffff;
-  --input-border:     #e5e7eb;
-  --shimmer-base:     #ebebeb;
-  --shimmer-shine:    #f6f6f6;
+  --bg:               #f0ece6;
+  --surface:          #f8f5f0;
+  --card:             #fdf9f5;
+  --border:           #e5e0d8;
+  --border-hover:     #d5cfc7;
+  --input-bg:         #f8f5f0;
+  --input-border:     #d5cfc7;
+  --hover:            #eae6df;
+  --shimmer-base:     #e5e0d8;
+  --shimmer-shine:    #f0ece6;
 }
 
 .dark {
@@ -25,6 +26,7 @@
   --border-hover:     #2a2a2a;
   --input-bg:         #1c1c1c;
   --input-border:     #2a2a2a;
+  --hover:            #1e1e1e;
   --shimmer-base:     #161616;
   --shimmer-shine:    #2e2e2e;
 }
