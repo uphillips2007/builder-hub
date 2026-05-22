@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { Lightbulb, Pencil, X } from 'lucide-react'
+import { Pencil, X } from 'lucide-react'
 import { useToast } from '../contexts/ToastContext'
+import { EmptyState, IdeasIllustration } from './EmptyState'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -97,11 +98,11 @@ export default function IdeaDump() {
       </form>
 
       {loading ? null : ideas.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <Lightbulb size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
-          <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-1">Nothing here yet</p>
-          <p className="text-xs text-neutral-400 dark:text-neutral-600">Type an idea above and hit Add to capture it.</p>
-        </div>
+        <EmptyState
+          illustration={IdeasIllustration}
+          title="Nothing here yet"
+          description="Type an idea above — no matter how rough, capture it."
+        />
       ) : (
         <ul className="space-y-2.5">
           {ideas.map((idea, i) => (

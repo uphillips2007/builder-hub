@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { FolderKanban, ChevronDown, Check, Pencil, X } from 'lucide-react'
 import { useToast } from '../contexts/ToastContext'
+import { EmptyState, ProjectsIllustration } from './EmptyState'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -215,11 +216,11 @@ export default function Projects() {
       )}
 
       {loading ? null : projects.length === 0 && !adding ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <FolderKanban size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
-          <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-1">No projects yet</p>
-          <p className="text-xs text-neutral-400 dark:text-neutral-600">Add your first project to start tracking.</p>
-        </div>
+        <EmptyState
+          illustration={ProjectsIllustration}
+          title="No projects yet"
+          description="Add your first project and start tracking what you're building."
+        />
       ) : (
         <ul className="space-y-3">
           {projects.map((project, i) => (

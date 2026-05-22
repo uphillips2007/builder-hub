@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { Sparkles } from 'lucide-react'
 import { useToast } from '../contexts/ToastContext'
+import { EmptyState, ReflectionIllustration } from './EmptyState'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -91,11 +91,11 @@ export default function WeeklyReflection() {
       </form>
 
       {loading ? null : past.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <Sparkles size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
-          <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-1">No past reflections yet</p>
-          <p className="text-xs text-neutral-400 dark:text-neutral-600">Previous weeks will appear here after you save them.</p>
-        </div>
+        <EmptyState
+          illustration={ReflectionIllustration}
+          title="No past reflections yet"
+          description="Save this week's reflection and it will appear here next week."
+        />
       ) : (
         <div>
           <p className="text-[11px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-4">

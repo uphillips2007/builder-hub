@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
-import { CalendarDays, Pencil, Flame } from 'lucide-react'
+import { Pencil, Flame } from 'lucide-react'
 import { useToast } from '../contexts/ToastContext'
+import { EmptyState, JournalIllustration } from './EmptyState'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -146,11 +147,11 @@ export default function Today() {
       </form>
 
       {loading ? null : sorted.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center">
-          <CalendarDays size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
-          <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-1">No entries yet</p>
-          <p className="text-xs text-neutral-400 dark:text-neutral-600">Your daily logs will appear here after you save one.</p>
-        </div>
+        <EmptyState
+          illustration={JournalIllustration}
+          title="No entries yet"
+          description="Write what you built today — your logs will appear here."
+        />
       ) : (
         <div>
           <p className="text-[11px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-4">
