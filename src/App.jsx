@@ -24,16 +24,11 @@ const NAV = [
 
 function LogoMark() {
   return (
-    <svg width="22" height="22" viewBox="0 0 32 32" className="shrink-0" aria-hidden="true">
-      {[0, 60, 120, 180, 240, 300].map((deg) => (
-        <ellipse
-          key={deg}
-          cx="16" cy="10.5" rx="3" ry="5.5"
-          fill="currentColor"
-          opacity="0.85"
-          transform={`rotate(${deg} 16 16)`}
-        />
-      ))}
+    <svg width="22" height="22" viewBox="0 0 56 56" className="shrink-0" aria-hidden="true">
+      <rect x="0" y="0" width="56" height="56" rx="12" fill="#e11d48"/>
+      <rect x="14" y="13" width="9" height="30" rx="2" fill="#ffffff"/>
+      <rect x="25" y="13" width="17" height="13" rx="3" fill="#ffffff"/>
+      <rect x="25" y="30" width="17" height="13" rx="3" fill="#fda4af"/>
     </svg>
   )
 }
