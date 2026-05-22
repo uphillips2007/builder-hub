@@ -118,7 +118,7 @@ export default function Projects() {
     setEditingId(null)
   }
 
-  const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`
+  const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-500 dark:focus:border-neutral-400 transition-colors duration-150`
 
   return (
     <div>
@@ -181,7 +181,7 @@ export default function Projects() {
                   onClick={() => setForm((f) => ({ ...f, status: s }))}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-all duration-150 ${
                     form.status === s
-                      ? `${STATUS_BADGE[s]} border-transparent ring-2 ${palette.ring}`
+                      ? `${STATUS_BADGE[s]} border-transparent ring-2 ring-neutral-500/40`
                       : 'border-gray-200 dark:border-gray-700 text-neutral-500 dark:text-neutral-400 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-900'
                   }`}
                 >
@@ -339,4 +339,6 @@ export default function Projects() {
     </div>
   )
 }
+
+
 

@@ -44,7 +44,7 @@ export default function AuthScreen() {
     }
   }
 
-  const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2.5 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`
+  const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2.5 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-500 dark:focus:border-neutral-400 transition-colors duration-150`
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-[#0a0a0a] flex items-center justify-center px-4">
@@ -157,4 +157,5 @@ export default function AuthScreen() {
     </div>
   )
 }
+
 
