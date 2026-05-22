@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
 import { FolderKanban, ChevronDown, Check, Pencil, X } from 'lucide-react'
-import { Sk } from './Skeleton'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -210,19 +209,7 @@ export default function Projects() {
         </form>
       )}
 
-      {loading ? (
-        <div className="space-y-3">
-          {[0, 1, 2].map((i) => (
-            <div key={i} className="rounded-xl border border-(--border) bg-(--card) pl-6 pr-5 py-4 relative overflow-hidden">
-              <div className="absolute left-0 top-0 bottom-0 w-[3px] shimmer" />
-              <Sk className="h-4 w-44 mb-2" />
-              <Sk className="h-3 w-full mb-1.5" />
-              <Sk className="h-3 w-1/2 mb-3" />
-              <Sk className="h-5 w-16 rounded-full" />
-            </div>
-          ))}
-        </div>
-      ) : projects.length === 0 && !adding ? (
+      {loading ? null : projects.length === 0 && !adding ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <FolderKanban size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
           <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-1">No projects yet</p>

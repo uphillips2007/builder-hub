@@ -4,7 +4,6 @@ import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import { formatDate } from '../lib/dates'
-import { Sk } from './Skeleton'
 
 function todayDate() {
   return new Date().toISOString().slice(0, 10)
@@ -40,7 +39,7 @@ function MiniStat({ label, value, icon: Icon, iconColor, loading }) {
     <div className="rounded-xl border border-(--border) bg-(--card) px-4 py-3 text-center">
       <Icon size={14} className={`${iconColor} mx-auto mb-1.5`} strokeWidth={2} />
       <p className="text-xl font-bold text-gray-900 dark:text-white tracking-tight">
-        {loading ? <Sk className="h-6 w-8 mx-auto mt-0.5" /> : value}
+        {loading ? '—' : value}
       </p>
       <p className="text-[11px] text-neutral-400 dark:text-neutral-600 mt-0.5">{label}</p>
     </div>
@@ -118,7 +117,7 @@ export default function Dashboard({ onNavigate }) {
         </div>
         <div>
           <p className="text-3xl font-bold text-gray-900 dark:text-white tracking-tight leading-none">
-            {loading ? <Sk className="h-8 w-10 mt-1" /> : streak}
+            {loading ? '—' : streak}
           </p>
           <p className="text-xs text-neutral-400 dark:text-neutral-600 mt-1">
             {streak === 1 ? 'day streak' : 'day streak'}
@@ -158,13 +157,7 @@ export default function Dashboard({ onNavigate }) {
           </button>
         </div>
         <div className="rounded-xl border border-(--border) bg-(--card) px-5 py-4">
-          {loading ? (
-            <div className="space-y-2">
-              <Sk className="h-4 w-full" />
-              <Sk className="h-4 w-4/5" />
-              <Sk className="h-3 w-24 mt-1" />
-            </div>
-          ) : todayEntry ? (
+          {loading ? null : todayEntry ? (
             <>
               <p className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed line-clamp-3">
                 {todayEntry.text}
@@ -201,7 +194,7 @@ export default function Dashboard({ onNavigate }) {
               key={label}
               className="rounded-xl border border-(--border) bg-(--card) px-3 py-3 text-center"
             >
-              <p className={`text-xl font-bold ${color}`}>{loading ? <Sk className="h-6 w-8 mx-auto mt-0.5" /> : count}</p>
+              <p className={`text-xl font-bold ${color}`}>{loading ? '—' : count}</p>
               <p className="text-[11px] text-neutral-400 dark:text-neutral-600 mt-0.5">{label}</p>
             </div>
           ))}
@@ -224,13 +217,7 @@ export default function Dashboard({ onNavigate }) {
             </button>
           </div>
           <div className="rounded-xl border border-(--border) bg-(--card) px-5 py-4">
-            {loading ? (
-              <div className="space-y-2">
-                <Sk className="h-4 w-full" />
-                <Sk className="h-4 w-1/2" />
-                <Sk className="h-3 w-20 mt-1" />
-              </div>
-            ) : lastReflection ? (
+            {loading ? null : lastReflection ? (
               <>
                 <p className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed line-clamp-2">
                   {lastReflection.text}
