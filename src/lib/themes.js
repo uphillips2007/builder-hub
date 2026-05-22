@@ -5,8 +5,8 @@ export const ACCENTS = {
     swatch: '#374151',
     button: 'bg-[#1a1a1a] hover:bg-black dark:bg-[#3a3a3a] dark:hover:bg-[#4a4a4a]',
     navActive: 'bg-gray-200 text-gray-900 dark:bg-[#252525] dark:text-white',
-    ring: 'focus:ring-[#555]',
-    text: 'text-gray-800 dark:text-gray-200',
+    ring: 'focus:ring-neutral-600',
+    text: 'text-neutral-800 dark:text-neutral-200',
     formBorder: 'border-gray-300 dark:border-[#2a2a2a] bg-gray-50 dark:bg-[#141414]',
   },
   indigo: {

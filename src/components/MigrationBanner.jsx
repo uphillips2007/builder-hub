@@ -130,7 +130,7 @@ export default function MigrationBanner() {
         <p className="text-sm font-semibold text-gray-900 dark:text-white mb-1">
           Import your local data?
         </p>
-        <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+        <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-3">
           Found {count} {count === 1 ? 'item' : 'items'} saved in this browser. Import them into your account so they sync everywhere.
         </p>
         <div className="flex gap-2">
@@ -144,7 +144,7 @@ export default function MigrationBanner() {
           <button
             onClick={handleDismiss}
             disabled={loading}
-            className="px-4 py-1.5 text-gray-500 dark:text-gray-400 text-xs font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+            className="px-4 py-1.5 text-neutral-500 dark:text-neutral-400 text-xs font-medium rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
           >
             Start fresh
           </button>
@@ -153,3 +153,4 @@ export default function MigrationBanner() {
     </div>
   )
 }
+

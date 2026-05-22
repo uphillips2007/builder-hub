@@ -44,7 +44,7 @@ export default function AuthScreen() {
     }
   }
 
-  const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2.5 text-sm placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`
+  const inputClass = `w-full rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2.5 text-sm placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-[#0a0a0a] flex items-center justify-center px-4">
@@ -53,7 +53,7 @@ export default function AuthScreen() {
         <div className="text-center mb-8">
           <div className="text-4xl mb-3">⚡</div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Builder Hub</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1.5">
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1.5">
             {mode === 'signin' ? 'Sign in to sync your data across devices' : 'Create an account to get started'}
           </p>
         </div>
@@ -84,7 +84,7 @@ export default function AuthScreen() {
           {/* Divider */}
           <div className="flex items-center gap-3 my-4">
             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-            <span className="text-xs text-gray-400 dark:text-gray-600 font-medium">or</span>
+            <span className="text-xs text-neutral-400 dark:text-neutral-600 font-medium">or</span>
             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
           </div>
 
@@ -102,7 +102,7 @@ export default function AuthScreen() {
             )}
 
             <div>
-              <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-1.5">
                 Email
               </label>
               <input
@@ -116,7 +116,7 @@ export default function AuthScreen() {
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wide mb-1.5">
+              <label className="block text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wide mb-1.5">
                 Password
               </label>
               <input
@@ -129,7 +129,7 @@ export default function AuthScreen() {
                 className={inputClass}
               />
               {mode === 'signup' && (
-                <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">Minimum 6 characters</p>
+                <p className="text-xs text-neutral-400 dark:text-neutral-600 mt-1">Minimum 6 characters</p>
               )}
             </div>
 
@@ -143,7 +143,7 @@ export default function AuthScreen() {
           </form>
         </div>
 
-        <p className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4">
+        <p className="text-center text-sm text-neutral-500 dark:text-neutral-400 mt-4">
           {mode === 'signin' ? "Don't have an account? " : 'Already have an account? '}
           <button
             onClick={() => { setMode(mode === 'signin' ? 'signup' : 'signin'); setError(''); setMessage('') }}
@@ -157,3 +157,4 @@ export default function AuthScreen() {
     </div>
   )
 }
+

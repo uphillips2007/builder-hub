@@ -67,10 +67,10 @@ export default function WeeklyReflection() {
   return (
     <div>
       <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">Weekly Reflection</h2>
-      <p className="text-sm text-gray-400 dark:text-gray-500 mb-8">{formatWeekRange(week)}</p>
+      <p className="text-sm text-neutral-400 dark:text-neutral-500 mb-8">{formatWeekRange(week)}</p>
 
       <form onSubmit={handleSave} className="mb-10">
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2.5">
+        <label className="block text-sm font-medium text-neutral-700 dark:text-neutral-300 mb-2.5">
           What gave me energy this week?
         </label>
         <textarea
@@ -78,7 +78,7 @@ export default function WeeklyReflection() {
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder="People, problems, moments, work — anything that made you feel alive..."
-          className={`w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-gray-400 dark:placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`}
+          className={`w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:ring-2 focus:border-transparent transition-colors duration-150 ${palette.ring}`}
         />
         <div className="mt-3 flex items-center gap-3">
           <button
@@ -96,16 +96,16 @@ export default function WeeklyReflection() {
       </form>
 
       {loading ? (
-        <div className="py-8 text-center text-sm text-gray-400 dark:text-gray-600">Loading…</div>
+        <div className="py-8 text-center text-sm text-neutral-400 dark:text-neutral-600">Loading…</div>
       ) : past.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 text-center">
           <Sparkles size={36} strokeWidth={1} className="text-gray-200 dark:text-gray-700 mb-3" />
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">No past reflections yet</p>
-          <p className="text-xs text-gray-400 dark:text-gray-600">Previous weeks will appear here after you save them.</p>
+          <p className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-1">No past reflections yet</p>
+          <p className="text-xs text-neutral-400 dark:text-neutral-600">Previous weeks will appear here after you save them.</p>
         </div>
       ) : (
         <div>
-          <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-4">
+          <p className="text-[11px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-widest mb-4">
             Previous weeks
           </p>
           <ul className="space-y-3">
@@ -114,10 +114,10 @@ export default function WeeklyReflection() {
                 key={r.week}
                 className="rounded-xl border border-gray-200 dark:border-gray-800/60 bg-white dark:bg-[#161616] px-5 py-4 shadow-sm hover:shadow-md hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-150"
               >
-                <p className="text-[11px] font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wide mb-2">
+                <p className="text-[11px] font-semibold text-neutral-400 dark:text-neutral-500 uppercase tracking-wide mb-2">
                   {formatWeekRange(r.week)}
                 </p>
-                <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">{r.text}</p>
+                <p className="text-sm text-neutral-700 dark:text-neutral-300 whitespace-pre-wrap leading-relaxed">{r.text}</p>
               </li>
             ))}
           </ul>
@@ -126,3 +126,4 @@ export default function WeeklyReflection() {
     </div>
   )
 }
+
