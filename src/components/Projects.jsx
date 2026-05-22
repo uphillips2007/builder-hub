@@ -226,7 +226,8 @@ export default function Projects({ onNavigate }) {
           {projects.map((project, i) => (
             <li
               key={project.id}
-              className="rounded-xl border border-(--border) bg-(--card) pl-6 pr-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group relative overflow-hidden item-enter"
+              onClick={() => editingId !== project.id && onNavigate('project', project.id)}
+              className="rounded-xl border border-(--border) bg-(--card) pl-6 pr-5 py-4 shadow-sm dark:shadow-none hover:border-(--border-hover) hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 group relative overflow-hidden item-enter cursor-pointer"
               style={{ animationDelay: `${i * 0.05}s` }}
             >
               <div className={`absolute left-0 top-0 bottom-0 w-[3px] ${STATUS_DOT[project.status]}`} />
@@ -267,14 +268,9 @@ export default function Projects({ onNavigate }) {
               ) : (
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0">
-                    <button
-                      onClick={() => onNavigate('project', project.id)}
-                      className="text-left group/title"
-                    >
-                      <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate leading-snug group-hover/title:underline underline-offset-2">
-                        {project.name}
-                      </h3>
-                    </button>
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white truncate leading-snug">
+                      {project.name}
+                    </h3>
                     {project.description && (
                       <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 leading-relaxed">
                         {project.description}
@@ -285,7 +281,7 @@ export default function Projects({ onNavigate }) {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0 pt-0.5">
+                  <div className="flex items-center gap-2 shrink-0 pt-0.5" onClick={(e) => e.stopPropagation()}>
                     <div
                       className="relative"
                       ref={(el) => { dropdownRefs.current[project.id] = el }}
