@@ -5,10 +5,10 @@ const ThemeContext = createContext(null)
 
 export function ThemeProvider({ children }) {
   const [accent, setAccentName] = useState(() => {
-    // v2: force charcoal for everyone on this theme version
+    // v3: force charcoal — clears any leftover rose/old accent
     const themeVer = localStorage.getItem('bh-theme-ver')
-    if (themeVer !== '2') {
-      localStorage.setItem('bh-theme-ver', '2')
+    if (themeVer !== '3') {
+      localStorage.setItem('bh-theme-ver', '3')
       localStorage.removeItem('bh-accent')
       return DEFAULT_ACCENT
     }
