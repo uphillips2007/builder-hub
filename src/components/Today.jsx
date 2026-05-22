@@ -81,7 +81,7 @@ export default function Today() {
 
   const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date))
 
-  const inputClass = `w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-500 dark:focus:border-neutral-400 transition-colors duration-150`
+  const inputClass = `w-full rounded-xl border border-gray-200 dark:border-[#2a2a2a] bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
 
   return (
     <div>

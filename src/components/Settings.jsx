@@ -33,7 +33,7 @@ export default function Settings() {
             type="text"
             value={nameInput}
             onChange={(e) => setNameInput(e.target.value)}
-            className={`flex-1 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-neutral-500 dark:focus:border-neutral-400`}
+            className={`flex-1 rounded-lg border border-gray-200 dark:border-[#2a2a2a] bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-3 py-2 text-sm focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500`}
           />
           <button
             type="submit"
@@ -58,7 +58,7 @@ export default function Settings() {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
               !darkMode
                 ? `border-transparent ${palette.button} text-white`
-                : 'border-gray-200 dark:border-gray-700 text-neutral-600 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                : 'border-gray-200 dark:border-[#2a2a2a] text-neutral-600 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-[#1e1e1e]'
             }`}
           >
             <Sun size={14} />
@@ -69,7 +69,7 @@ export default function Settings() {
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
               darkMode
                 ? `border-transparent ${palette.button} text-white`
-                : 'border-gray-200 dark:border-gray-700 text-neutral-600 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-gray-800'
+                : 'border-gray-200 dark:border-[#2a2a2a] text-neutral-600 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-[#1e1e1e]'
             }`}
           >
             <Moon size={14} />

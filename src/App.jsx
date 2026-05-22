@@ -45,7 +45,7 @@ function NavItems({ active, onNavigate, palette }) {
               'w-full text-left flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-150',
               active === id
                 ? palette.navActive
-                : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-900 dark:hover:text-gray-100',
+                : 'text-neutral-500 dark:text-neutral-400 hover:bg-gray-100 dark:hover:bg-[#1e1e1e] hover:text-gray-900 dark:hover:text-neutral-100',
             ].join(' ')}
           >
             <Icon size={16} strokeWidth={active === id ? 2 : 1.75} />
@@ -61,7 +61,7 @@ function NavItems({ active, onNavigate, palette }) {
             'w-full text-left flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-150',
             active === 'settings'
               ? palette.navActive
-              : 'text-gray-400 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300',
+              : 'text-neutral-400 dark:text-neutral-500 hover:bg-gray-100 dark:hover:bg-[#1e1e1e] hover:text-gray-700 dark:hover:text-neutral-300',
           ].join(' ')}
         >
           <Settings2 size={16} strokeWidth={active === 'settings' ? 2 : 1.75} />
