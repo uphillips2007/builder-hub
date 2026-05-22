@@ -1,22 +1,22 @@
 import { useState } from 'react'
-import { Sun, Moon, Check } from 'lucide-react'
+import { Sun, Moon } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useAuth } from '../contexts/AuthContext'
+import { useToast } from '../contexts/ToastContext'
 import { ACCENTS } from '../lib/themes'
 
 export default function Settings() {
   const { accent, setAccent, darkMode, setDarkMode, hubName, setHubName, palette } = useTheme()
   const { user, signOut } = useAuth()
+  const { toast } = useToast()
   const [nameInput, setNameInput] = useState(hubName)
-  const [nameSaved, setNameSaved] = useState(false)
 
   function saveHubName(e) {
     e.preventDefault()
     const trimmed = nameInput.trim()
     if (!trimmed) return
     setHubName(trimmed)
-    setNameSaved(true)
-    setTimeout(() => setNameSaved(false), 2000)
+    toast('Hub name saved')
   }
 
   return (
@@ -41,11 +41,6 @@ export default function Settings() {
           >
             Save
           </button>
-          {nameSaved && (
-            <span className="self-center text-green-600 dark:text-green-400">
-              <Check size={16} strokeWidth={2.5} />
-            </span>
-          )}
         </form>
       </section>
 

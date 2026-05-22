@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { LayoutDashboard, CalendarDays, FolderKanban, Lightbulb, Sparkles, Settings2, Menu, X } from 'lucide-react'
 import { ThemeProvider, useTheme } from './contexts/ThemeContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { ToastProvider } from './contexts/ToastContext'
 import AuthScreen from './components/auth/AuthScreen'
 import MigrationBanner from './components/MigrationBanner'
 import Dashboard from './components/Dashboard'
@@ -193,7 +194,9 @@ export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
-        <AppGate />
+        <ToastProvider>
+          <AppGate />
+        </ToastProvider>
       </AuthProvider>
     </ThemeProvider>
   )

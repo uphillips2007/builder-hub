@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
-import { CalendarDays, Pencil, Flame, Check } from 'lucide-react'
+import { CalendarDays, Pencil, Flame } from 'lucide-react'
+import { useToast } from '../contexts/ToastContext'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -35,12 +36,12 @@ function calcStreak(entries) {
 export default function Today() {
   const { palette } = useTheme()
   const { user } = useAuth()
+  const { toast } = useToast()
   const date = todayDate()
 
   const [entries, setEntries] = useState([])
   const [loading, setLoading] = useState(true)
   const [text, setText] = useState('')
-  const [saved, setSaved] = useState(false)
   const [editingDate, setEditingDate] = useState(null)
   const [editText, setEditText] = useState('')
 
@@ -70,8 +71,7 @@ export default function Today() {
       const without = prev.filter((e) => e.date !== date)
       return [{ date, text: trimmed, user_id: user.id }, ...without]
     })
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
+    toast('Entry saved')
 
     await supabase.from('today_entries').upsert(
       { user_id: user.id, date, text: trimmed, updated_at: new Date().toISOString() },
@@ -90,6 +90,7 @@ export default function Today() {
     const d = editingDate
     setEntries((prev) => prev.map((e) => (e.date === d ? { ...e, text: trimmed } : e)))
     setEditingDate(null)
+    toast('Entry updated')
     await supabase
       .from('today_entries')
       .update({ text: trimmed, updated_at: new Date().toISOString() })
@@ -141,9 +142,6 @@ export default function Today() {
           >
             Save
           </button>
-          <span className={`flex items-center gap-1 text-sm font-medium text-green-600 dark:text-green-400 transition-opacity duration-300 ${saved ? 'opacity-100' : 'opacity-0'}`}>
-            <Check size={14} strokeWidth={2.5} /> Saved
-          </span>
         </div>
       </form>
 

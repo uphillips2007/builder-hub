@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Sparkles } from 'lucide-react'
+import { useToast } from '../contexts/ToastContext'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -18,12 +19,12 @@ function currentISOWeek() {
 export default function WeeklyReflection() {
   const { palette } = useTheme()
   const { user } = useAuth()
+  const { toast } = useToast()
   const week = currentISOWeek()
 
   const [reflections, setReflections] = useState([])
   const [loading, setLoading] = useState(true)
   const [text, setText] = useState('')
-  const [saved, setSaved] = useState(false)
 
   useEffect(() => {
     async function load() {
@@ -51,8 +52,7 @@ export default function WeeklyReflection() {
       const without = prev.filter((r) => r.week !== week)
       return [{ week, text: trimmed, user_id: user.id }, ...without]
     })
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
+    toast('Reflection saved')
 
     await supabase.from('reflections').upsert(
       { user_id: user.id, week, text: trimmed, updated_at: new Date().toISOString() },
@@ -87,11 +87,6 @@ export default function WeeklyReflection() {
           >
             Save
           </button>
-          <span
-            className={`text-sm font-medium text-green-600 dark:text-green-400 transition-opacity duration-300 ${saved ? 'opacity-100' : 'opacity-0'}`}
-          >
-            ✓ Saved
-          </span>
         </div>
       </form>
 

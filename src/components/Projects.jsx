@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { FolderKanban, ChevronDown, Check, Pencil, X } from 'lucide-react'
+import { useToast } from '../contexts/ToastContext'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -32,6 +33,7 @@ function emptyForm() {
 export default function Projects() {
   const { palette } = useTheme()
   const { user } = useAuth()
+  const { toast } = useToast()
 
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
@@ -84,6 +86,7 @@ export default function Projects() {
     }
     setForm(emptyForm())
     setAdding(false)
+    toast('Project added')
     const { data } = await supabase.from('projects').insert(payload).select().single()
     if (data) setProjects((prev) => [data, ...prev])
   }
@@ -91,6 +94,7 @@ export default function Projects() {
   async function updateStatus(id, status) {
     setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, status } : p)))
     setOpenDropdown(null)
+    toast('Status updated')
     await supabase.from('projects').update({ status }).eq('id', id).eq('user_id', user.id)
   }
 
@@ -111,6 +115,7 @@ export default function Projects() {
     const updates = { name: editForm.name.trim(), description: editForm.description.trim() }
     setProjects((prev) => prev.map((p) => (p.id === id ? { ...p, ...updates } : p)))
     setEditingId(null)
+    toast('Project saved')
     await supabase.from('projects').update(updates).eq('id', id).eq('user_id', user.id)
   }
 

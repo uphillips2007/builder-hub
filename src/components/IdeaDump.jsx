@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Lightbulb, Pencil, X } from 'lucide-react'
+import { useToast } from '../contexts/ToastContext'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -8,6 +9,7 @@ import { formatTimestamp } from '../lib/dates'
 export default function IdeaDump() {
   const { palette } = useTheme()
   const { user } = useAuth()
+  const { toast } = useToast()
 
   const [ideas, setIdeas] = useState([])
   const [loading, setLoading] = useState(true)
@@ -33,6 +35,7 @@ export default function IdeaDump() {
     const trimmed = input.trim()
     if (!trimmed) return
     setInput('')
+    toast('Idea captured')
     const { data } = await supabase
       .from('ideas')
       .insert({ user_id: user.id, text: trimmed, created_at: new Date().toISOString() })
@@ -57,6 +60,7 @@ export default function IdeaDump() {
     const id = editingId
     setIdeas((prev) => prev.map((i) => (i.id === id ? { ...i, text: trimmed } : i)))
     setEditingId(null)
+    toast('Idea saved')
     await supabase.from('ideas').update({ text: trimmed }).eq('id', id).eq('user_id', user.id)
   }
 
