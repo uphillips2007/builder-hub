@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { CalendarDays, Pencil } from 'lucide-react'
+import { CalendarDays, Pencil, Flame } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -7,6 +7,29 @@ import { formatPageDate, formatDate } from '../lib/dates'
 
 function todayDate() {
   return new Date().toISOString().slice(0, 10)
+}
+
+function calcStreak(entries) {
+  if (!entries.length) return 0
+  const dates = new Set(entries.map((e) => e.date))
+
+  const pad = (d) => d.toISOString().slice(0, 10)
+  const today = new Date()
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
+
+  // Streak is dead if neither today nor yesterday has an entry
+  if (!dates.has(pad(today)) && !dates.has(pad(yesterday))) return 0
+
+  // Start counting from today (or yesterday if today not logged yet)
+  const start = dates.has(pad(today)) ? new Date(today) : new Date(yesterday)
+  let streak = 0
+  const cursor = new Date(start)
+  while (dates.has(pad(cursor))) {
+    streak++
+    cursor.setDate(cursor.getDate() - 1)
+  }
+  return streak
 }
 
 export default function Today() {
@@ -83,9 +106,21 @@ export default function Today() {
 
   const inputClass = `w-full rounded-xl border border-gray-200 dark:border-[#2a2a2a] bg-white dark:bg-[#1c1c1c] text-gray-900 dark:text-white px-4 py-3 text-sm leading-relaxed resize-none placeholder:text-neutral-400 dark:placeholder:text-neutral-600 focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-500 transition-colors duration-150`
 
+  const streak = calcStreak(entries)
+
   return (
     <div>
-      <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white mb-1">Today</h2>
+      <div className="flex items-start justify-between mb-1">
+        <h2 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Today</h2>
+        {streak > 0 && (
+          <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 dark:bg-amber-950/30 border border-amber-100 dark:border-amber-900/40">
+            <Flame size={14} className="text-amber-500 dark:text-amber-400" strokeWidth={2} />
+            <span className="text-xs font-semibold text-amber-600 dark:text-amber-400">
+              {streak} {streak === 1 ? 'day' : 'days'}
+            </span>
+          </div>
+        )}
+      </div>
       <p className="text-sm text-neutral-400 dark:text-neutral-500 mb-8">{formatPageDate(date)}</p>
 
       <form onSubmit={handleSave} className="mb-10">
