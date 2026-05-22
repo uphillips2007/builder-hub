@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
-import { CalendarDays, FolderKanban, Lightbulb, Sparkles, Settings2, Menu, X } from 'lucide-react'
+import { LayoutDashboard, CalendarDays, FolderKanban, Lightbulb, Sparkles, Settings2, Menu, X } from 'lucide-react'
 import { ThemeProvider, useTheme } from './contexts/ThemeContext'
 import { AuthProvider, useAuth } from './contexts/AuthContext'
 import AuthScreen from './components/auth/AuthScreen'
 import MigrationBanner from './components/MigrationBanner'
+import Dashboard from './components/Dashboard'
 import Today from './components/Today'
 import Projects from './components/Projects'
 import IdeaDump from './components/IdeaDump'
@@ -11,7 +12,8 @@ import WeeklyReflection from './components/WeeklyReflection'
 import Settings from './components/Settings'
 
 const NAV = [
-  { id: 'today',      label: 'Today',            icon: CalendarDays },
+  { id: 'dashboard',  label: 'Dashboard',         icon: LayoutDashboard },
+  { id: 'today',      label: 'Today',             icon: CalendarDays },
   { id: 'projects',   label: 'Projects',          icon: FolderKanban },
   { id: 'ideas',      label: 'Idea Dump',         icon: Lightbulb },
   { id: 'reflection', label: 'Weekly Reflection', icon: Sparkles },
@@ -73,7 +75,7 @@ function NavItems({ active, onNavigate, palette }) {
 }
 
 function Layout() {
-  const [active, setActive] = useState('today')
+  const [active, setActive] = useState('dashboard')
   const [drawerOpen, setDrawerOpen] = useState(false)
   const { palette, hubName } = useTheme()
 
@@ -153,6 +155,7 @@ function Layout() {
         </aside>
 
         <main className="flex-1 min-w-0 w-full px-4 py-6 md:px-12 md:py-12 md:max-w-2xl">
+          {active === 'dashboard'  && <Dashboard onNavigate={navigate} />}
           {active === 'today'      && <Today />}
           {active === 'projects'   && <Projects />}
           {active === 'ideas'      && <IdeaDump />}
