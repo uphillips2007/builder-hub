@@ -21,7 +21,7 @@ const NAV = [
 
 function LogoMark() {
   return (
-    <svg width="22" height="22" viewBox="0 0 32 32" className="shrink-0">
+    <svg width="22" height="22" viewBox="0 0 32 32" className="shrink-0" aria-hidden="true">
       {[0, 60, 120, 180, 240, 300].map((deg) => (
         <ellipse
           key={deg}
@@ -38,11 +38,12 @@ function LogoMark() {
 function NavItems({ active, onNavigate, palette }) {
   return (
     <>
-      <nav className="flex-1 p-2 pt-3 space-y-0.5">
+      <nav className="flex-1 p-2 pt-3 space-y-0.5" aria-label="Main navigation">
         {NAV.map(({ id, label, icon: Icon }) => (
           <button
             key={id}
             onClick={() => onNavigate(id)}
+            aria-current={active === id ? 'page' : undefined}
             className={[
               'w-full text-left flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-150',
               active === id
@@ -59,6 +60,7 @@ function NavItems({ active, onNavigate, palette }) {
       <div className="p-2 border-t border-gray-100 dark:border-[#1a1a1a]">
         <button
           onClick={() => onNavigate('settings')}
+          aria-current={active === 'settings' ? 'page' : undefined}
           className={[
             'w-full text-left flex items-center gap-2.5 px-3 py-3 md:py-2.5 rounded-lg text-sm font-medium transition-all duration-150',
             active === 'settings'

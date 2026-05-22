@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { FolderKanban, ChevronDown, Check, Pencil } from 'lucide-react'
+import { FolderKanban, ChevronDown, Check, Pencil, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -324,10 +324,10 @@ export default function Projects() {
                       </button>
                       <button
                         onClick={() => deleteProject(project.id)}
-                        className="text-neutral-400 dark:text-neutral-600 hover:text-red-400 dark:hover:text-red-500 transition-colors duration-150 text-xl leading-none"
-                        title="Delete"
+                        aria-label="Delete project"
+                        className="text-neutral-400 dark:text-neutral-600 hover:text-red-400 dark:hover:text-red-500 transition-colors duration-150"
                       >
-                        ×
+                        <X size={14} />
                       </button>
                     </div>
                   </div>

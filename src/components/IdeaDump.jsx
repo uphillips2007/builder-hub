@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Lightbulb, Pencil } from 'lucide-react'
+import { Lightbulb, Pencil, X } from 'lucide-react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
@@ -151,10 +151,10 @@ export default function IdeaDump() {
                     </button>
                     <button
                       onClick={() => handleDelete(idea.id)}
-                      className="text-neutral-400 dark:text-neutral-600 hover:text-red-400 dark:hover:text-red-500 transition-colors duration-150 text-lg leading-none"
-                      title="Delete"
+                      aria-label="Delete idea"
+                      className="text-neutral-400 dark:text-neutral-600 hover:text-red-400 dark:hover:text-red-500 transition-colors duration-150"
                     >
-                      ×
+                      <X size={14} />
                     </button>
                   </div>
                 </div>
