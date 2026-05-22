@@ -1,12 +1,11 @@
 import { useRef, useState } from 'react'
-import { AlignJustify, Maximize2 } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { useAuth } from '../contexts/AuthContext'
 import { useToast } from '../contexts/ToastContext'
 import { FONTS } from '../lib/themes'
 
 export default function Settings() {
-  const { accentColor, setAccentColor, hubName, setHubName, font, setFont, compact, setCompact, palette } = useTheme()
+  const { accentColor, setAccentColor, hubName, setHubName, font, setFont, palette } = useTheme()
   const { user, signOut } = useAuth()
   const { toast } = useToast()
   const [nameInput, setNameInput] = useState(hubName)
@@ -94,37 +93,6 @@ export default function Settings() {
               {val.name}
             </button>
           ))}
-        </div>
-      </section>
-
-      {/* Density */}
-      <section className="mb-8">
-        <h3 className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">
-          Density
-        </h3>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setCompact(false)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
-              !compact
-                ? `border-transparent ${palette.button} text-white`
-                : 'border-(--input-border) dark:border-[#2a2a2a] text-neutral-600 dark:text-neutral-400 hover:bg-(--hover)'
-            }`}
-          >
-            <Maximize2 size={14} />
-            Comfortable
-          </button>
-          <button
-            onClick={() => setCompact(true)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium border transition-colors ${
-              compact
-                ? `border-transparent ${palette.button} text-white`
-                : 'border-(--input-border) dark:border-[#2a2a2a] text-neutral-600 dark:text-neutral-400 hover:bg-(--hover)'
-            }`}
-          >
-            <AlignJustify size={14} />
-            Compact
-          </button>
         </div>
       </section>
 
