@@ -5,6 +5,7 @@ import { AuthProvider, useAuth } from './contexts/AuthContext'
 import { ToastProvider } from './contexts/ToastContext'
 import AuthScreen from './components/auth/AuthScreen'
 import MigrationBanner from './components/MigrationBanner'
+import RightPanel from './components/RightPanel'
 import Dashboard from './components/Dashboard'
 import Today from './components/Today'
 import Projects from './components/Projects'
@@ -163,7 +164,7 @@ function Layout() {
           <NavItems active={activeNav} onNavigate={navigate} palette={palette} />
         </aside>
 
-        <main className="flex-1 min-w-0 w-full px-4 py-6 md:px-12 md:py-12 md:max-w-2xl">
+        <main className="flex-1 min-w-0 w-full px-4 py-6 md:px-12 md:py-12 max-w-2xl">
           <div key={active === 'project' ? `project-${projectId}` : active} className="page-enter">
             {active === 'dashboard'  && <Dashboard onNavigate={navigate} />}
             {active === 'today'      && <Today />}
@@ -174,6 +175,10 @@ function Layout() {
             {active === 'settings'   && <Settings />}
           </div>
         </main>
+
+        <aside className="hidden xl:block shrink-0 w-64 border-l border-(--border) bg-(--surface) px-5 py-8 sticky top-0 h-screen overflow-y-auto">
+          <RightPanel onNavigate={navigate} />
+        </aside>
       </div>
 
       <MigrationBanner />
